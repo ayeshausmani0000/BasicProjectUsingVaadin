@@ -26,12 +26,14 @@ public class EMDaoImpl implements EMDao {
 		return styleEntities;// TODO Auto-generated method stub
 	}
 
+	
+	@Override
 	public List<StyleEntity> filterByStyleNoAndCountry(String styleNo, CountryEntity country) {
 
 		StringBuffer sb = new StringBuffer();
 		Query query = null;
 		sb.append("SELECT s  FROM StyleEntity s WHERE  1 = 1 ");
-
+		
 		if (styleNo != null && !styleNo.equals("")) {
 			sb.append(" AND s.styleNo=:styleNumber");
 		}
@@ -63,5 +65,7 @@ public class EMDaoImpl implements EMDao {
 	// List<StyleEntity> styleEntities=query.getResultList();
 	// return styleEntities;
 	// }
+	
+	
 
 }

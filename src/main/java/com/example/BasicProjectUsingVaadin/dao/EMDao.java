@@ -15,4 +15,5 @@ public interface EMDao {
 	List<StyleEntity> checkByStyleNo(StyleEntity styleEntity);
 
 List<StyleEntity> filterByStyleNoAndCountry(String styleNo, CountryEntity country);
+	
 }

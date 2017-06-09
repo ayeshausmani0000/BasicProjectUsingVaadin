@@ -166,8 +166,12 @@ public class SpringDataServiceImpl implements Service {
 		}
 		return false;
 	}
-
-	public Iterable<StyleEntity> filterByStyleNoAndCountry(String string, CountryEntity country) {
-		return emDao.filterByStyleNoAndCountry(string, country);
+	
+	
+	public Iterable<StyleEntity> filterByStyleNoAndCountry(String styleNo,CountryEntity country)
+	{
+	return emDao.filterByStyleNoAndCountry(styleNo, country);
 	}
+
+	
 }

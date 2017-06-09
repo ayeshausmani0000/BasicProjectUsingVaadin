@@ -70,6 +70,30 @@ public class StyleView extends VerticalLayout implements View {
 		// return a.equals(filterLower);
 		// });
 		// });
+		
+		search.addClickListener(e -> {
+			Iterable<StyleEntity> filterStyle = serviceImpl.filterByStyleNoAndCountry(filter.getValue(),
+					comboboxFilter.getValue());
+			
+			ListDataProvider<StyleEntity> dataProvider1 = DataProvider
+					.ofCollection((Collection<StyleEntity>) filterStyle);
+			styleGrid.clearSortOrder();
+			styleGrid.setDataProvider(dataProvider1);
+
+		});
+		
+	
+/*
+		countryComboBox.addSelectionListener(e -> {
+			styleDataProvider.setFilter(StyleEntity::getCountry, country -> {
+				if (country == null) {
+					return false;
+				}
+				String a = country.getName();
+				String filterLower = e.getValue().getName();
+				return a.equals(filterLower);
+			});
+		});*/
 
 		refresh.addClickListener(e6 -> {
 			styleGrid.setDataProvider(styleDataProvider);
@@ -99,6 +123,19 @@ public class StyleView extends VerticalLayout implements View {
 			styleGrid.setDataProvider(dataProvider1);
 
 		});
+/*		search.addClickListener(e1 -> {
+
+			styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> {
+				if (styleNo == null && filter.getValue() == null) {
+					return false;
+				}
+
+				String a = styleNo.toString();
+				String filterLower = filter.getValue();
+				return a.contains(filterLower);
+
+			});
+		});*/
 
 		styleGrid.addSelectionListener(e4 -> {
 			if (styleGrid.asSingleSelect() != null) {
