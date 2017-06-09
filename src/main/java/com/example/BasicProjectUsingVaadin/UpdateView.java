@@ -86,7 +86,7 @@ public class UpdateView extends FormLayout implements View {
 		styleEntity.setCountry(countryComboBox.getSelectedItem().get());
 		if (serviceImpl.isStyleExistV(styleEntity)) {
 			Notification.show("Already exist");
-			getUI().getNavigator().navigateTo(StyleView.NAME);
+			
 		} else {
 			serviceImpl.saveStyle(styleEntity);
 			getUI().getNavigator().navigateTo(StyleView.NAME);

@@ -60,8 +60,20 @@ public class StyleView extends VerticalLayout implements View {
 		ListDataProvider<StyleEntity> styleDataProvider = DataProvider
 				.ofCollection((Collection<StyleEntity>) styleEntities);
 
-	
+		
+		search.addClickListener(e -> {
+			Iterable<StyleEntity> filterStyle = serviceImpl.filterByStyleNoAndCountry(filter.getValue(),
+					countryComboBox.getValue());
+			
+			ListDataProvider<StyleEntity> dataProvider1 = DataProvider
+					.ofCollection((Collection<StyleEntity>) filterStyle);
+			styleGrid.clearSortOrder();
+			styleGrid.setDataProvider(dataProvider1);
 
+		});
+		
+	
+/*
 		countryComboBox.addSelectionListener(e -> {
 			styleDataProvider.setFilter(StyleEntity::getCountry, country -> {
 				if (country == null) {
@@ -71,13 +83,13 @@ public class StyleView extends VerticalLayout implements View {
 				String filterLower = e.getValue().getName();
 				return a.equals(filterLower);
 			});
-		});
+		});*/
 
 		refresh.addClickListener(e6 -> {
 			styleDataProvider.clearFilters();
 		});
 
-		search.addClickListener(e1 -> {
+/*		search.addClickListener(e1 -> {
 
 			styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> {
 				if (styleNo == null && filter.getValue() == null) {
@@ -89,7 +101,7 @@ public class StyleView extends VerticalLayout implements View {
 				return a.contains(filterLower);
 
 			});
-		});
+		});*/
 
 		styleGrid.addSelectionListener(e4 -> {
 			if (styleGrid.asSingleSelect() != null ) {
@@ -120,7 +132,7 @@ public class StyleView extends VerticalLayout implements View {
 		});
 
 		styleGrid.setDataProvider(styleDataProvider);
-		layout.addComponents(filter, search, countryComboBox, addStyle, update, delete, refresh);
+		layout.addComponents(filter, countryComboBox,  search,addStyle, update, delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
 		addComponents(layout, styleGrid);
