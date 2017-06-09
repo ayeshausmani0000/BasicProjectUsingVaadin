@@ -9,6 +9,7 @@ import com.example.BasicProjectUsingVaadin.model.ClientEntity;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;
+import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 import com.vaadin.spring.annotation.SpringComponent;
 
 @SpringComponent
@@ -26,10 +27,10 @@ public class EMDaoImpl implements EMDao {
 		return styleEntities;// TODO Auto-generated method stub
 	}
 
-	
 	@Override
-	public List<StyleEntity> filterByStyleNoAndCountry(String styleNo, CountryEntity country) {
-
+	public List<StyleEntity> filterByStyleNoAndCountry(StyleOverFilter filterEntity) {
+    String styleNo=filterEntity.getStyleNo();
+    CountryEntity country=filterEntity.getCountry();
 		StringBuffer sb = new StringBuffer();
 		Query query = null;
 		sb.append("SELECT s  FROM StyleEntity s WHERE  1 = 1 ");
@@ -65,7 +66,5 @@ public class EMDaoImpl implements EMDao {
 	// List<StyleEntity> styleEntities=query.getResultList();
 	// return styleEntities;
 	// }
-	
-	
 
 }

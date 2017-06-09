@@ -17,6 +17,7 @@ import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.LoginEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;
+import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 import com.example.BasicProjectUsingVaadin.repository.ItemRepository;
 import com.example.BasicProjectUsingVaadin.repository.ItemSizeRepository;
 import com.example.BasicProjectUsingVaadin.repository.LoginRepository;
@@ -168,9 +169,9 @@ public class SpringDataServiceImpl implements Service {
 	}
 	
 	
-	public Iterable<StyleEntity> filterByStyleNoAndCountry(String styleNo,CountryEntity country)
+	public Iterable<StyleEntity> filterByStyleNoAndCountry(StyleOverFilter filterEntity)
 	{
-	return emDao.filterByStyleNoAndCountry(styleNo, country);
+	return emDao.filterByStyleNoAndCountry(filterEntity);
 	}
 
 	
