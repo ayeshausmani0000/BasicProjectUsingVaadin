@@ -39,6 +39,7 @@ public class StyleView extends VerticalLayout implements View {
 	private Button delete;
 	private Button addStyle;
 	private Button refresh;
+	private ComboBox<CountryEntity> comboboxFilter;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -50,9 +51,8 @@ public class StyleView extends VerticalLayout implements View {
 		addStyle = new Button("Add Style");
 		refresh = new Button("Refresh");
 		Iterable<CountryEntity> countryEntities = masterServiceImpl.findAllCountry();
-		ComboBox<CountryEntity> countryComboBox = new ComboBox<CountryEntity>();
-		countryComboBox.setItems((Collection<CountryEntity>) countryEntities);
-	
+		comboboxFilter = new ComboBox<CountryEntity>();
+		comboboxFilter.setItems((Collection<CountryEntity>) countryEntities);
 
 		Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
 		Grid<StyleEntity> styleGrid = new Grid<StyleEntity>(StyleEntity.class);
@@ -60,39 +60,48 @@ public class StyleView extends VerticalLayout implements View {
 		ListDataProvider<StyleEntity> styleDataProvider = DataProvider
 				.ofCollection((Collection<StyleEntity>) styleEntities);
 
-	
-
-		countryComboBox.addSelectionListener(e -> {
-			styleDataProvider.setFilter(StyleEntity::getCountry, country -> {
-				if (country == null) {
-					return false;
-				}
-				String a = country.getName();
-				String filterLower = e.getValue().getName();
-				return a.equals(filterLower);
-			});
-		});
+		// comboboxFilter.addSelectionListener(e -> {
+		// styleDataProvider.setFilter(StyleEntity::getCountry, country -> {
+		// if (country == null) {
+		// return false;
+		// }
+		// String a = country.getName();
+		// String filterLower = e.getValue().getName();
+		// return a.equals(filterLower);
+		// });
+		// });
 
 		refresh.addClickListener(e6 -> {
-			styleDataProvider.clearFilters();
+			styleGrid.setDataProvider(styleDataProvider);
 		});
 
-		search.addClickListener(e1 -> {
+		// search.addClickListener(e1 -> {
+		//
+		// styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> {
+		// if (styleNo == null && filter.getValue() == null) {
+		// return false;
+		// }
+		//
+		// String a = styleNo.toString();
+		// String filterLower = filter.getValue();
+		// return a.contains(filterLower);
+		//
+		// });
+		// });
 
-			styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> {
-				if (styleNo == null && filter.getValue() == null) {
-					return false;
-				}
+		search.addClickListener(e -> {
+			Iterable<StyleEntity> filterStyle = serviceImpl.filterByStyleNoAndCountry(filter.getValue(),
+					comboboxFilter.getValue());
 
-				String a = styleNo.toString();
-				String filterLower = filter.getValue();
-				return a.contains(filterLower);
+			ListDataProvider<StyleEntity> dataProvider1 = DataProvider
+					.ofCollection((Collection<StyleEntity>) filterStyle);
+			styleGrid.clearSortOrder();
+			styleGrid.setDataProvider(dataProvider1);
 
-			});
 		});
 
 		styleGrid.addSelectionListener(e4 -> {
-			if (styleGrid.asSingleSelect() != null ) {
+			if (styleGrid.asSingleSelect() != null) {
 				update.addClickListener(e2 -> {
 					VaadinSession.getCurrent().setAttribute("update", "update");
 					VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
@@ -102,25 +111,23 @@ public class StyleView extends VerticalLayout implements View {
 				delete.addClickListener(e5 -> {
 					DeleteWindow deleteWindow = new DeleteWindow();
 					getUI().addWindow(deleteWindow);
-					
-					  deleteWindow.addListener(e -> {
-					  Notification.show("component clicked"); });
-					 
-				
+
+					deleteWindow.addListener(e -> {
+						Notification.show("component clicked");
+					});
+
 				});
-			} 
-			
+			}
 
 		});
 
-		
-			addStyle.addClickListener(e3 -> {
+		addStyle.addClickListener(e3 -> {
 			VaadinSession.getCurrent().setAttribute("update", "add");
 			getUI().getNavigator().navigateTo(UpdateView.NAME);
 		});
 
 		styleGrid.setDataProvider(styleDataProvider);
-		layout.addComponents(filter, search, countryComboBox, addStyle, update, delete, refresh);
+		layout.addComponents(filter, comboboxFilter, search, addStyle, update, delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
 		addComponents(layout, styleGrid);

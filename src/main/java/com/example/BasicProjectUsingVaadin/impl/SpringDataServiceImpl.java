@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.BasicProjectUsingVaadin.dao.EMDao;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
+import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.LoginEntity;
@@ -156,7 +157,6 @@ public class SpringDataServiceImpl implements Service {
 		return items;
 
 	}
-	
 
 	@Override
 	public boolean isStyleExistV(StyleEntity styleEntity) {
@@ -167,4 +167,7 @@ public class SpringDataServiceImpl implements Service {
 		return false;
 	}
 
+	public Iterable<StyleEntity> filterByStyleNoAndCountry(String string, CountryEntity country) {
+		return emDao.filterByStyleNoAndCountry(string, country);
+	}
 }

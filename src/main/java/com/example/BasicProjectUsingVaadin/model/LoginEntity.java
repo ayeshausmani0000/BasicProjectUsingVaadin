@@ -15,6 +15,7 @@ public class LoginEntity
 	@Column(name="username")
 	private String username;
 	
+	
 	@Column(name="password")
 	private String password;
 

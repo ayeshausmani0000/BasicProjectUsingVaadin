@@ -31,6 +31,7 @@ public class StyleEntity {
 	@Column(name = "style_id")
 	private Integer id;
 
+	
 	@Column(name = "style_no")
 	private String styleNo;
 
@@ -40,6 +41,7 @@ public class StyleEntity {
 	@ManyToOne
 	@JoinColumn(name = "season_id")
 	private SeasonEntity season;
+
 
 	@ManyToOne
 	@JoinColumn(name = "country_id")

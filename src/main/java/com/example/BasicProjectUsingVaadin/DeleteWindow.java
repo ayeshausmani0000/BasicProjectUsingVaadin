@@ -21,7 +21,7 @@ public class DeleteWindow extends Window {
 
 		);
 		Button no = new Button("NO"
-			//	, event -> {close();
+				, event -> {close();}
 		);
 
 		setWidth("350px");
