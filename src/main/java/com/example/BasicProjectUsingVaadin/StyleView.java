@@ -16,11 +16,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 @SpringView(name = StyleView.NAME)
@@ -40,7 +37,7 @@ public class StyleView extends VerticalLayout implements View {
 	private Button search;
 	private Button update;
 	private Button delete;
-	private Button createStyle;
+	private Button addStyle;
 	private Button refresh;
 
 	@Override
@@ -50,12 +47,12 @@ public class StyleView extends VerticalLayout implements View {
 		search = new Button("Search");
 		update = new Button("Update");
 		delete = new Button("Delete");
-		createStyle = new Button("Create Style");
+		addStyle = new Button("Add Style");
 		refresh = new Button("Refresh");
 		Iterable<CountryEntity> countryEntities = masterServiceImpl.findAllCountry();
 		ComboBox<CountryEntity> countryComboBox = new ComboBox<CountryEntity>();
 		countryComboBox.setItems((Collection<CountryEntity>) countryEntities);
-		
+	
 
 		Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
 		Grid<StyleEntity> styleGrid = new Grid<StyleEntity>(StyleEntity.class);
@@ -63,14 +60,7 @@ public class StyleView extends VerticalLayout implements View {
 		ListDataProvider<StyleEntity> styleDataProvider = DataProvider
 				.ofCollection((Collection<StyleEntity>) styleEntities);
 
-		/*
-		 * filter.addValueChangeListener(e -> {
-		 * styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> { if
-		 * (styleNo == null) { return false; }
-		 * 
-		 * String a =styleNo.toString(); String filterLower = e.getValue();
-		 * return a.equals(filterLower); }); });
-		 */
+	
 
 		countryComboBox.addSelectionListener(e -> {
 			styleDataProvider.setFilter(StyleEntity::getCountry, country -> {
@@ -102,9 +92,9 @@ public class StyleView extends VerticalLayout implements View {
 		});
 
 		styleGrid.addSelectionListener(e4 -> {
-			if (styleGrid.asSingleSelect() != null) {
+			if (styleGrid.asSingleSelect() != null ) {
 				update.addClickListener(e2 -> {
-
+					VaadinSession.getCurrent().setAttribute("update", "update");
 					VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
 					getUI().getNavigator().navigateTo(UpdateView.NAME);
 				});
@@ -116,20 +106,21 @@ public class StyleView extends VerticalLayout implements View {
 					  deleteWindow.addListener(e -> {
 					  Notification.show("component clicked"); });
 					 
-					// getUI().addWindow(deleteWindow);
+				
 				});
-			} else {
-				Notification.show("select an entry");
-			}
+			} 
+			
 
 		});
 
-		createStyle.addClickListener(e3 -> {
-			getUI().getNavigator().navigateTo(SaveView.NAME);
+		
+			addStyle.addClickListener(e3 -> {
+			VaadinSession.getCurrent().setAttribute("update", "add");
+			getUI().getNavigator().navigateTo(UpdateView.NAME);
 		});
 
 		styleGrid.setDataProvider(styleDataProvider);
-		layout.addComponents(filter, search, countryComboBox, createStyle, update, delete, refresh);
+		layout.addComponents(filter, search, countryComboBox, addStyle, update, delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
 		addComponents(layout, styleGrid);
