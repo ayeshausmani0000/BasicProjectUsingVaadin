@@ -122,15 +122,21 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public boolean validateUser(String username, String password) {
-		int count = 0;
-		Iterable<LoginEntity> loginData = loginRepository.findAll();
 
-		for (LoginEntity loginEntity : loginData) {
-			if (loginEntity.getUsername().equals(username) && loginEntity.getPassword().equals(password))
-				count++;
-		}
-		if (count > 0)
+		LoginEntity user = loginRepository.findByUsernameAndPassword(username, password);
+		if (user != null) {
 			return true;
+		}
+		// int count = 0;
+		// Iterable<LoginEntity> loginData = loginRepository.findAll();
+		//
+		// for (LoginEntity loginEntity : loginData) {
+		// if (loginEntity.getUsername().equals(username) &&
+		// loginEntity.getPassword().equals(password))
+		// count++;
+		// }
+		// if (count > 0)
+		// return true;
 		return false;
 
 	}
@@ -150,6 +156,7 @@ public class SpringDataServiceImpl implements Service {
 		return items;
 
 	}
+	
 
 	@Override
 	public boolean isStyleExistV(StyleEntity styleEntity) {

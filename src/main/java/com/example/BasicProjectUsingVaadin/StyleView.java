@@ -55,9 +55,7 @@ public class StyleView extends VerticalLayout implements View {
 		Iterable<CountryEntity> countryEntities = masterServiceImpl.findAllCountry();
 		ComboBox<CountryEntity> countryComboBox = new ComboBox<CountryEntity>();
 		countryComboBox.setItems((Collection<CountryEntity>) countryEntities);
-		// ListDataProvider<CountryEntity>
-		// countryDataProvider=DataProvider.ofCollection((Collection<CountryEntity>)
-		// countryEntities);
+		
 
 		Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
 		Grid<StyleEntity> styleGrid = new Grid<StyleEntity>(StyleEntity.class);
