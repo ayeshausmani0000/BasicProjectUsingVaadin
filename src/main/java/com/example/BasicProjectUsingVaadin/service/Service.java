@@ -7,6 +7,7 @@ import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;
+import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 
 public interface Service {
 
@@ -39,4 +40,6 @@ public interface Service {
 	public boolean validateUser(String username,String password);
 	
 	public List<ItemEntity> findByItemNumber(String itemNo);
+	
+	public Iterable<StyleEntity> filterByStyleNoAndCountry(StyleOverFilter filterEntity);
 }
