@@ -4,19 +4,22 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.BasicProjectUsingVaadin.dto.StyleDto;
+import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
-import com.example.BasicProjectUsingVaadin.model.StyleEntity;
+//import com.example.BasicProjectUsingVaadin.model.StyleEntity;
+import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 
 @RestController
 public interface PresenterDao {
-	public void saveStyle(StyleEntity styleEntity);
+	public void saveStyle(StyleDto styleDto);
 
-	public Iterable<StyleEntity> findAllStyles();
+	public Iterable<StyleDto> findAllStyles();
 
-	public StyleEntity findByStyleId(Integer id);
+	public StyleDto findByStyleId(Integer id);
 	
 	public void deleteStyle(Integer id);
 
@@ -30,15 +33,17 @@ public interface PresenterDao {
 
 	public Iterable<ItemEntity> findAllItems();
 	
-	StyleEntity findByStyleIdWithItems(Integer styleid);
+	StyleDto findByStyleIdWithItems(Integer styleid);
 
 	public ItemEntity findByItemId(Integer id);
 	
-	public boolean isStyleExist(StyleEntity styleEntity, SeasonEntity seasonEntity, ClientEntity clientEntity);
+	public boolean isStyleExist(StyleDto styleEntity, SeasonEntity seasonEntity, ClientEntity clientEntity);
 	
-	public boolean isStyleExistV(StyleEntity styleEntity);
+	public boolean isStyleExistV(StyleDto styleEntity);
 	
 	public boolean validateUser(String username,String password);
 	
 	public List<ItemEntity> findByItemNumber(String itemNo);
+	
+	public Iterable<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity);
 }

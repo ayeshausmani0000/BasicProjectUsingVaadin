@@ -15,6 +15,7 @@ import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;
+import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 import com.example.BasicProjectUsingVaadin.service.Service;
 import com.vaadin.spring.annotation.SpringComponent;
 
@@ -220,5 +221,11 @@ public class EntityManagerServiceImpl implements Service {
 	public boolean isStyleExistV(StyleEntity styleEntity) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Iterable<StyleEntity> filterByStyleNoAndCountry(StyleOverFilter filterEntity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

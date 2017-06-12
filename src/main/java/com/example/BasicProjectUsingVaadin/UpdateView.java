@@ -5,6 +5,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.BasicProjectUsingVaadin.dao.PresenterDao;
+import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dto.CountryDto;
+import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.impl.MasterServiceImpl;
 import com.example.BasicProjectUsingVaadin.impl.SpringDataServiceImpl;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
@@ -32,32 +36,34 @@ public class UpdateView extends FormLayout implements View {
 	int id = 0;
 
 	@Autowired
-	private SpringDataServiceImpl serviceImpl;
+	private PresenterDao presenterDao;
 
 	@Autowired
-	private MasterServiceImpl masterServiceImpl;
+	private PresenterMasterDao presenterMasterDao;
+	// @Autowired
+	// private SpringDataServiceImpl serviceImpl;
+	//
+	// @Autowired
+	// private MasterServiceImpl masterServiceImpl;
 	private Button save;
 	private HorizontalLayout layout;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		layout=new HorizontalLayout();
+		layout = new HorizontalLayout();
 		styleNo = new TextField("Enter Style Number");
 		styleDesc = new TextField("Enter Style Description");
 		update = new Button("Update");
 		cancel = new Button("Cancel");
-		save=new Button("Save");
-		Iterable<CountryEntity> countryEntities = masterServiceImpl.findAllCountry();
-		ComboBox<CountryEntity> countryComboBox = new ComboBox<CountryEntity>("Select Country");
-		countryComboBox.setItems((Collection<CountryEntity>) countryEntities);
-		String status=(String) VaadinSession.getCurrent().getAttribute("update");
-	
-		
-		
-		if(status.equals("update"))
-		{
-			Set<StyleEntity> style = (Set<StyleEntity>) VaadinSession.getCurrent().getAttribute("Style");
-			for (StyleEntity styleEntity : style) {
+		save = new Button("Save");
+		Iterable<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
+		ComboBox<CountryDto> countryComboBox = new ComboBox<CountryDto>("Select Country");
+		countryComboBox.setItems((Collection<CountryDto>) countryEntities);
+		String status = (String) VaadinSession.getCurrent().getAttribute("update");
+
+		if (status.equals("update")) {
+			Set<StyleDto> style = (Set<StyleDto>) VaadinSession.getCurrent().getAttribute("Style");
+			for (StyleDto styleEntity : style) {
 				styleNo.setValue(styleEntity.getStyleNo());
 				styleDesc.setValue(styleEntity.getDesc());
 				countryComboBox.setValue(styleEntity.getCountry());
@@ -65,42 +71,39 @@ public class UpdateView extends FormLayout implements View {
 			}
 
 			update.addClickListener(e -> {
-				StyleEntity pStyle = serviceImpl.findByStyleId(id);
+				StyleDto pStyle = presenterDao.findByStyleId(id);
 				pStyle.setStyleNo(styleNo.getValue());
 				pStyle.setDesc(styleDesc.getValue());
 				pStyle.setCountry(countryComboBox.getSelectedItem().get());
-				serviceImpl.saveStyle(pStyle);
+				presenterDao.saveStyle(pStyle);
 				getUI().getNavigator().navigateTo(StyleView.NAME);
 			});
-		
-			layout.addComponents(update,cancel);
-			addComponents(styleNo, styleDesc, countryComboBox,layout);
-		}
-	else
-	{
-		save.addClickListener(e -> {
-		StyleEntity styleEntity = new StyleEntity();
 
-		styleEntity.setStyleNo(styleNo.getValue());
-		styleEntity.setDesc(styleDesc.getValue());
-		styleEntity.setCountry(countryComboBox.getSelectedItem().get());
-		if (serviceImpl.isStyleExistV(styleEntity)) {
-			Notification.show("Already exist");
-			
+			layout.addComponents(update, cancel);
+			addComponents(styleNo, styleDesc, countryComboBox, layout);
 		} else {
-			serviceImpl.saveStyle(styleEntity);
-			getUI().getNavigator().navigateTo(StyleView.NAME);
-		}
+			save.addClickListener(e -> {
+				StyleDto styleEntity = new StyleDto();
 
-	});
-		
-		layout.addComponents(save,cancel);
-		addComponents(styleNo, styleDesc, countryComboBox,layout);
-}
+				styleEntity.setStyleNo(styleNo.getValue());
+				styleEntity.setDesc(styleDesc.getValue());
+				styleEntity.setCountry(countryComboBox.getSelectedItem().get());
+				if (presenterDao.isStyleExistV(styleEntity)) {
+					Notification.show("Already exist");
+
+				} else {
+					presenterDao.saveStyle(styleEntity);
+					getUI().getNavigator().navigateTo(StyleView.NAME);
+				}
+
+			});
+
+			layout.addComponents(save, cancel);
+			addComponents(styleNo, styleDesc, countryComboBox, layout);
+		}
 		cancel.addClickListener(e2 -> {
 			getUI().getNavigator().navigateTo(StyleView.NAME);
 		});
-		
 
 	}
 

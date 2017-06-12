@@ -6,6 +6,10 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.BasicProjectUsingVaadin.dao.PresenterDao;
+import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dto.CountryDto;
+import com.example.BasicProjectUsingVaadin.dto.StyleDto;
+import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 import com.example.BasicProjectUsingVaadin.impl.MasterServiceImpl;
 import com.example.BasicProjectUsingVaadin.impl.SpringDataServiceImpl;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
@@ -36,12 +40,17 @@ public class StyleView extends VerticalLayout implements View {
 
 	@Autowired
 	private PresenterDao presenterDao;
-
+	
 	@Autowired
+	private PresenterMasterDao presenterMasterDao;
+	
+	
+
+	/*@Autowired
 	private MasterServiceImpl masterServiceImpl;
 
 	@Autowired
-	private SpringDataServiceImpl serviceImpl;
+	private SpringDataServiceImpl serviceImpl;*/
 
 	private TextField filter;
 	private HorizontalLayout layout;
@@ -50,7 +59,7 @@ public class StyleView extends VerticalLayout implements View {
 	private Button delete;
 	private Button addStyle;
 	private Button refresh;
-	private ComboBox<CountryEntity> comboboxFilter;
+	private ComboBox<CountryDto> comboboxFilter;
 	private final Window window = new Window();
 	private Integer id;
 
@@ -76,16 +85,16 @@ public class StyleView extends VerticalLayout implements View {
 		window.setWidth("350px");
 		window.setHeight("100px");
 
-		Iterable<CountryEntity> countryEntities = masterServiceImpl.findAllCountry();
-		comboboxFilter = new ComboBox<CountryEntity>();
-		comboboxFilter.setItems((Collection<CountryEntity>) countryEntities);
+		Iterable<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
+		comboboxFilter = new ComboBox<CountryDto>();
+		comboboxFilter.setItems((Collection<CountryDto>) countryEntities);
 
 		// Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
-		Iterable<StyleEntity> styleEntities = presenterDao.findAllStyles();
-		Grid<StyleEntity> styleGrid = new Grid<StyleEntity>(StyleEntity.class);
+		Iterable<StyleDto> styleEntities = presenterDao.findAllStyles();
+		Grid<StyleDto> styleGrid = new Grid<StyleDto>(StyleDto.class);
 		styleGrid.setColumns("id", "styleNo", "desc", "country");
-		ListDataProvider<StyleEntity> styleDataProvider = DataProvider
-				.ofCollection((Collection<StyleEntity>) styleEntities);
+		ListDataProvider<StyleDto> styleDataProvider = DataProvider
+				.ofCollection((Collection<StyleDto>) styleEntities);
 
 		// search.addClickListener(e -> {
 		// StyleOverFilter filterEntity = new StyleOverFilter();
@@ -105,13 +114,13 @@ public class StyleView extends VerticalLayout implements View {
 		});
 
 		search.addClickListener(e -> {
-			StyleOverFilter filterEntity = new StyleOverFilter();
+			StyleOverViewFilterDto filterEntity = new StyleOverViewFilterDto();
 			filterEntity.setStyleNo(filter.getValue());
 			filterEntity.setCountry(comboboxFilter.getValue());
-			Iterable<StyleEntity> filterStyle = serviceImpl.filterByStyleNoAndCountry(filterEntity);
+			Iterable<StyleDto> filterStyle = presenterDao.filterByStyleNoAndCountry(filterEntity);
 
-			ListDataProvider<StyleEntity> dataProvider1 = DataProvider
-					.ofCollection((Collection<StyleEntity>) filterStyle);
+			ListDataProvider<StyleDto> dataProvider1 = DataProvider
+					.ofCollection((Collection<StyleDto>) filterStyle);
 			styleGrid.clearSortOrder();
 			styleGrid.setDataProvider(dataProvider1);
 
@@ -123,12 +132,12 @@ public class StyleView extends VerticalLayout implements View {
 					UI.getCurrent().addWindow(window);
 
 					if (styleGrid.asSingleSelect() != null) {
-						Set<StyleEntity>  style = (Set<StyleEntity>) styleGrid.getSelectedItems();
-						for (StyleEntity styleEntity : style) {
-							id = styleEntity.getId();
+						Set<StyleDto>  style = (Set<StyleDto>) styleGrid.getSelectedItems();
+						for (StyleDto styleDto : style) {
+							id = styleDto.getId();
 						}
 						yesButton.addClickListener(e -> {
-							serviceImpl.deleteStyle(id);
+							presenterDao.deleteStyle(id);
 							window.close();
 						});
 
