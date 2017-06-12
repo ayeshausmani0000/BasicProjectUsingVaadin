@@ -37,7 +37,6 @@ public class SpringDataServiceImpl implements Service {
 	@Autowired
 	private ItemRepository itemRepository;
 
-	@SuppressWarnings("unused")
 	@Autowired
 	private DataSource dataSource;
 
