@@ -2,6 +2,8 @@ package com.example.BasicProjectUsingVaadin;
 
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.BasicProjectUsingVaadin.dao.PresenterDao;
 import com.example.BasicProjectUsingVaadin.impl.MasterServiceImpl;
 import com.example.BasicProjectUsingVaadin.impl.SpringDataServiceImpl;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
@@ -28,8 +30,11 @@ public class StyleView extends VerticalLayout implements View {
 	public static final String NAME = "Style";
 
 	@Autowired
-	private MasterServiceImpl masterServiceImpl;
+	private PresenterDao presenterDao;
 
+	@Autowired
+	private MasterServiceImpl masterServiceImpl;
+	
 	@Autowired
 	private SpringDataServiceImpl serviceImpl;
 
