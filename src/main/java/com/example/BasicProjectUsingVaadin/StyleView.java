@@ -1,6 +1,8 @@
 package com.example.BasicProjectUsingVaadin;
 
 import java.util.Collection;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.BasicProjectUsingVaadin.dao.PresenterDao;
@@ -19,9 +21,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 
 @SpringView(name = StyleView.NAME)
 public class StyleView extends VerticalLayout implements View {
@@ -34,7 +39,7 @@ public class StyleView extends VerticalLayout implements View {
 
 	@Autowired
 	private MasterServiceImpl masterServiceImpl;
-	
+
 	@Autowired
 	private SpringDataServiceImpl serviceImpl;
 
@@ -46,6 +51,8 @@ public class StyleView extends VerticalLayout implements View {
 	private Button addStyle;
 	private Button refresh;
 	private ComboBox<CountryEntity> comboboxFilter;
+	private final Window window = new Window();
+	private Integer id;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -56,64 +63,46 @@ public class StyleView extends VerticalLayout implements View {
 		delete = new Button("Delete");
 		addStyle = new Button("Add Style");
 		refresh = new Button("Refresh");
+		Button yesButton = new Button("Yes");
+		Button noButton = new Button("No");
+		final VerticalLayout popupVLayout = new VerticalLayout();
+		Label label = new Label("Do You Really Want to Delete It");
+		HorizontalLayout horizontalLayout1 = new HorizontalLayout();
+		horizontalLayout1.addComponents(yesButton, noButton);
+		popupVLayout.addComponents(label, horizontalLayout1);
+
+		window.setContent(popupVLayout);
+		window.center();
+		window.setWidth("350px");
+		window.setHeight("100px");
+
 		Iterable<CountryEntity> countryEntities = masterServiceImpl.findAllCountry();
 		comboboxFilter = new ComboBox<CountryEntity>();
 		comboboxFilter.setItems((Collection<CountryEntity>) countryEntities);
 
-		Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
+		// Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
+		Iterable<StyleEntity> styleEntities = presenterDao.findAllStyles();
 		Grid<StyleEntity> styleGrid = new Grid<StyleEntity>(StyleEntity.class);
 		styleGrid.setColumns("id", "styleNo", "desc", "country");
 		ListDataProvider<StyleEntity> styleDataProvider = DataProvider
 				.ofCollection((Collection<StyleEntity>) styleEntities);
 
-		// comboboxFilter.addSelectionListener(e -> {
-		// styleDataProvider.setFilter(StyleEntity::getCountry, country -> {
-		// if (country == null) {
-		// return false;
-		// }
-		// String a = country.getName();
-		// String filterLower = e.getValue().getName();
-		// return a.equals(filterLower);
+		// search.addClickListener(e -> {
+		// StyleOverFilter filterEntity = new StyleOverFilter();
+		// filterEntity.setStyleNo(filter.getValue());
+		// filterEntity.setCountry(comboboxFilter.getValue());
+		// Iterable<StyleEntity> filterStyle =
+		// serviceImpl.filterByStyleNoAndCountry(filterEntity);
+		//
+		// ListDataProvider<StyleEntity> dataProvider1 = DataProvider
+		// .ofCollection((Collection<StyleEntity>) filterStyle);
+		// styleGrid.setDataProvider(dataProvider1);
+		//
 		// });
-		// });
-
-		search.addClickListener(e -> {
-			StyleOverFilter filterEntity = new StyleOverFilter();
-			filterEntity.setStyleNo(filter.getValue());
-			filterEntity.setCountry(comboboxFilter.getValue());
-			Iterable<StyleEntity> filterStyle = serviceImpl.filterByStyleNoAndCountry(filterEntity);
-
-			ListDataProvider<StyleEntity> dataProvider1 = DataProvider
-					.ofCollection((Collection<StyleEntity>) filterStyle);
-			styleGrid.setDataProvider(dataProvider1);
-
-		});
-
-		/*
-		 * countryComboBox.addSelectionListener(e -> {
-		 * styleDataProvider.setFilter(StyleEntity::getCountry, country -> { if
-		 * (country == null) { return false; } String a = country.getName();
-		 * String filterLower = e.getValue().getName(); return
-		 * a.equals(filterLower); }); });
-		 */
 
 		refresh.addClickListener(e6 -> {
 			styleGrid.setDataProvider(styleDataProvider);
 		});
-
-		// search.addClickListener(e1 -> {
-		//
-		// styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> {
-		// if (styleNo == null && filter.getValue() == null) {
-		// return false;
-		// }
-		//
-		// String a = styleNo.toString();
-		// String filterLower = filter.getValue();
-		// return a.contains(filterLower);
-		//
-		// });
-		// });
 
 		search.addClickListener(e -> {
 			StyleOverFilter filterEntity = new StyleOverFilter();
@@ -127,17 +116,30 @@ public class StyleView extends VerticalLayout implements View {
 			styleGrid.setDataProvider(dataProvider1);
 
 		});
-		/*
-		 * search.addClickListener(e1 -> {
-		 * 
-		 * styleDataProvider.setFilter(StyleEntity::getStyleNo, styleNo -> { if
-		 * (styleNo == null && filter.getValue() == null) { return false; }
-		 * 
-		 * String a = styleNo.toString(); String filterLower =
-		 * filter.getValue(); return a.contains(filterLower);
-		 * 
-		 * }); });
-		 */
+
+		styleGrid.addSelectionListener(e7 -> {
+			delete.addClickListener(e8 -> {
+				if (window.getParent() == null) {
+					UI.getCurrent().addWindow(window);
+
+					if (styleGrid.asSingleSelect() != null) {
+						Set<StyleEntity>  style = (Set<StyleEntity>) styleGrid.getSelectedItems();
+						for (StyleEntity styleEntity : style) {
+							id = styleEntity.getId();
+						}
+						yesButton.addClickListener(e -> {
+							serviceImpl.deleteStyle(id);
+							window.close();
+						});
+
+						noButton.focus();
+						noButton.addClickListener(e -> {
+							window.close();
+						});
+					}
+				}
+			});
+		});
 
 		styleGrid.addSelectionListener(e4 -> {
 			if (styleGrid.asSingleSelect() != null) {
@@ -147,15 +149,7 @@ public class StyleView extends VerticalLayout implements View {
 					getUI().getNavigator().navigateTo(UpdateView.NAME);
 				});
 
-				delete.addClickListener(e5 -> {
-					DeleteWindow deleteWindow = new DeleteWindow();
-					getUI().addWindow(deleteWindow);
-
-					deleteWindow.addListener(e -> {
-						Notification.show("component clicked");
-					});
-
-				});
+				
 			}
 
 		});

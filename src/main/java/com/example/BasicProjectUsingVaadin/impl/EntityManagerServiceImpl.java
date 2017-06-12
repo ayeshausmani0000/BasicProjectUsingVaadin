@@ -24,7 +24,6 @@ public class EntityManagerServiceImpl implements Service {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@SuppressWarnings("unused")
 	@Autowired
 	private DataSource dataSource;
 	
