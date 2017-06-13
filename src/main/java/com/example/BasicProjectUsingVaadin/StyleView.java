@@ -133,20 +133,14 @@ public class StyleView extends VerticalLayout implements View {
 					}
 				}
 			});
+			update.addClickListener(e2 -> {
+				VaadinSession.getCurrent().setAttribute("update", "update");
+				VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
+				getUI().getNavigator().navigateTo(UpdateView.NAME);
+			});
 		});
 
-		styleGrid.addSelectionListener(e4 -> {
-			if (styleGrid.asSingleSelect() != null) {
-				update.addClickListener(e2 -> {
-					VaadinSession.getCurrent().setAttribute("update", "update");
-					VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
-					getUI().getNavigator().navigateTo(UpdateView.NAME);
-				});
-
-			}
-
-		});
-
+		
 		addStyle.addClickListener(e3 -> {
 			VaadinSession.getCurrent().setAttribute("update", "add");
 			getUI().getNavigator().navigateTo(UpdateView.NAME);
