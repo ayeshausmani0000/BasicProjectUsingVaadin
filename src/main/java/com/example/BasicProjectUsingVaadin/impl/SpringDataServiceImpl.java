@@ -64,7 +64,8 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public StyleEntity findByStyleId(Integer styleid) {
-		StyleEntity styleEntity = styleRepository.findOne(styleid);
+		//StyleEntity styleEntity = styleRepository.findOne(styleid);
+		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
 
 	}

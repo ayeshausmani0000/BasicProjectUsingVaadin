@@ -1,14 +1,18 @@
 package com.example.BasicProjectUsingVaadin.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.BasicProjectUsingVaadin.dto.ClientDto;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
-import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
+import com.example.BasicProjectUsingVaadin.dto.ItemDto;
+import com.example.BasicProjectUsingVaadin.dto.ItemSizeDto;
+import com.example.BasicProjectUsingVaadin.dto.SizeDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
@@ -16,6 +20,7 @@ import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
+import com.example.BasicProjectUsingVaadin.model.SizeEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 import com.example.BasicProjectUsingVaadin.service.Service;
@@ -114,12 +119,36 @@ public class PresenterDaoImpl implements PresenterDao {
 		style.setId(styleDto.getId());
 		style.setStyleNo(styleDto.getStyleNo());
 		style.setDesc(styleDto.getDesc());
+		Set<ItemDto> itemDtos = styleDto.getItems();
+		Set<ItemEntity> items = new HashSet<ItemEntity>();
+		for (ItemDto itemDto : itemDtos) {
+			ItemEntity itemEntity = new ItemEntity();
+			itemEntity.setItemId(itemDto.getItemId());
+			itemEntity.setItemNo(itemDto.getItemNo());
+			itemEntity.setColor(itemDto.getColor());
+			itemEntity.setStyle(style);
+			
+			Set<ItemSizeDto> itemSizeDtos = itemDto.getItemSizes();
+			Set<ItemSizeEntity> itemSizes = new HashSet<ItemSizeEntity>();
+			for (ItemSizeDto itemSizeDto : itemSizeDtos) {
+				ItemSizeEntity itemSizeEntity = new ItemSizeEntity();
+				itemSizeEntity.setItemsizeId(itemSizeDto.getItemsizeId());
+				itemSizeEntity.setQuantity(itemSizeDto.getQuantity());
+				SizeEntity sizeEntity = new SizeEntity();
+				sizeEntity.setSizeId(itemSizeDto.getSize().getSizeId());
+				sizeEntity.setSizeCode(itemSizeDto.getSize().getSizeCode());
+				itemSizeEntity.setSize(sizeEntity);
+				itemSizes.add(itemSizeEntity);
+			}
+			items.add(itemEntity);
+			itemEntity.setItemSizes(itemSizes);
+		}
+		style.setItems(items);
 		CountryEntity country = new CountryEntity();
 		country.setId(styleDto.getCountry().getId());
 		country.setIsoCode(styleDto.getCountry().getIsoCode());
 		country.setName(styleDto.getCountry().getName());
 		style.setCountry(country);
-
 		service.saveStyle(style);
 	}
 
@@ -130,6 +159,35 @@ public class PresenterDaoImpl implements PresenterDao {
 		styleDto.setId(styleEntity.getId());
 		styleDto.setStyleNo(styleEntity.getStyleNo());
 		styleDto.setDesc(styleEntity.getDesc());
+		Set<ItemEntity> items = styleEntity.getItems();
+		Set<ItemDto> itemDtos = new HashSet<ItemDto>();
+		for (ItemEntity item : items) {
+			ItemDto itemDto = new ItemDto();
+			itemDto.setItemId(item.getItemId());
+			itemDto.setItemNo(item.getItemNo());
+			itemDto.setColor(item.getColor());
+			itemDto.setStyle(styleDto);
+			Set<ItemSizeEntity> itemSizes = item.getItemSizes();
+			Set<ItemSizeDto> itemSizeDtos = new HashSet<ItemSizeDto>();
+			for (ItemSizeEntity itemSize : itemSizes) {
+				ItemSizeDto itemSizeDto = new ItemSizeDto();
+				itemSizeDto.setItemsizeId(itemSize.getItemsizeId());
+				itemSizeDto.setQuantity(itemSize.getQuantity());
+				SizeDto sizeDto = new SizeDto();
+				sizeDto.setSizeId(itemSize.getSize().getSizeId());
+				sizeDto.setSizeCode(itemSize.getSize().getSizeCode());
+				itemSizeDto.setSize(sizeDto);
+				itemSizeDtos.add(itemSizeDto);
+			}
+			itemDtos.add(itemDto);
+			itemDto.setItemSizes(itemSizeDtos);
+		}
+		styleDto.setItems(itemDtos);
+		CountryDto countryDto = new CountryDto();
+		countryDto.setId(styleEntity.getCountry().getId());
+		countryDto.setIsoCode(styleEntity.getCountry().getIsoCode());
+		countryDto.setName(styleEntity.getCountry().getName());
+		styleDto.setCountry(countryDto);
 		return styleDto;
 	}
 
