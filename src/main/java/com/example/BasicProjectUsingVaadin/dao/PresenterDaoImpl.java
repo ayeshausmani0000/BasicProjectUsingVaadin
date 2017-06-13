@@ -55,7 +55,7 @@ public class PresenterDaoImpl implements PresenterDao {
 			// clientDto.setId(styleEntity.getClient().getId());
 			// clientDto.setClientName(styleEntity.getClient().getClientName());
 			// styles.setClient(clientDto);
-			
+
 			styleEntities1.add(styles);
 		}
 		return styleEntities1;
@@ -120,33 +120,33 @@ public class PresenterDaoImpl implements PresenterDao {
 		style.setId(styleDto.getId());
 		style.setStyleNo(styleDto.getStyleNo());
 		style.setDesc(styleDto.getDesc());
-		if(style.getItems()!=null){
-		Set<ItemDto> itemDtos = styleDto.getItems();
-		Set<ItemEntity> items = new HashSet<ItemEntity>();
-		for (ItemDto itemDto : itemDtos) {
-			ItemEntity itemEntity = new ItemEntity();
-			itemEntity.setItemId(itemDto.getItemId());
-			itemEntity.setItemNo(itemDto.getItemNo());
-			itemEntity.setColor(itemDto.getColor());
-			itemEntity.setStyle(style);
-			Set<ItemSizeDto> itemSizeDtos = itemDto.getItemSizes();
-			Set<ItemSizeEntity> itemSizes = new HashSet<ItemSizeEntity>();
-			for (ItemSizeDto itemSizeDto : itemSizeDtos) {
-				ItemSizeEntity itemSizeEntity = new ItemSizeEntity();
-				itemSizeEntity.setItemsizeId(itemSizeDto.getItemsizeId());
-				itemSizeEntity.setQuantity(itemSizeDto.getQuantity());
-				
-				SizeEntity sizeEntity = new SizeEntity();
-				sizeEntity.setSizeId(itemSizeDto.getSize().getSizeId());
-				sizeEntity.setSizeCode(itemSizeDto.getSize().getSizeCode());
-				itemSizeEntity.setSize(sizeEntity);
-				itemSizes.add(itemSizeEntity);
+		
+			Set<ItemDto> itemDtos = styleDto.getItems();
+			Set<ItemEntity> items = new HashSet<ItemEntity>();
+			for (ItemDto itemDto : itemDtos) {
+				ItemEntity itemEntity = new ItemEntity();
+				itemEntity.setItemId(itemDto.getItemId());
+				itemEntity.setItemNo(itemDto.getItemNo());
+				itemEntity.setColor(itemDto.getColor());
+				itemEntity.setStyle(style);
+				Set<ItemSizeDto> itemSizeDtos = itemDto.getItemSizes();
+				Set<ItemSizeEntity> itemSizes = new HashSet<ItemSizeEntity>();
+				for (ItemSizeDto itemSizeDto : itemSizeDtos) {
+					ItemSizeEntity itemSizeEntity = new ItemSizeEntity();
+					itemSizeEntity.setItemsizeId(itemSizeDto.getItemsizeId());
+					itemSizeEntity.setQuantity(itemSizeDto.getQuantity());
+
+					SizeEntity sizeEntity = new SizeEntity();
+					sizeEntity.setSizeId(itemSizeDto.getSize().getSizeId());
+					sizeEntity.setSizeCode(itemSizeDto.getSize().getSizeCode());
+					itemSizeEntity.setSize(sizeEntity);
+					itemSizes.add(itemSizeEntity);
+				}
+				items.add(itemEntity);
+				itemEntity.setItemSizes(itemSizes);
 			}
-			items.add(itemEntity);
-			itemEntity.setItemSizes(itemSizes);
-		}
-		style.setItems(items);
-		}
+			style.setItems(items);
+		
 		CountryEntity country = new CountryEntity();
 		country.setId(styleDto.getCountry().getId());
 		country.setIsoCode(styleDto.getCountry().getIsoCode());
