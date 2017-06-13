@@ -9,7 +9,6 @@ public class StyleDto {
 	private String desc;
 	private SeasonDto season;
 	private CountryDto country;
-
 	private ClientDto client;
 	private Set<ItemDto> items;
 
@@ -20,7 +19,6 @@ public class StyleDto {
 	public void setItems(Set<ItemDto> items) {
 		this.items = items;
 	}
-
 
 	public Integer getId() {
 		return id;
