@@ -35,7 +35,7 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 	private Service service;
 
 	@Override
-	public Iterable<StyleDto> findAllStyles() 
+	public List<StyleDto> findAllStyles() 
 	{
 		Iterable<StyleEntity> styleEntities = service.findAllStyles();
 		List<StyleDto> styleEntities1 = new ArrayList<StyleDto>();
@@ -71,7 +71,7 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 	}
 
 	@Override
-	public Iterable<ItemSizeEntity> findAllItemSize() 
+	public List<ItemSizeEntity> findAllItemSize() 
 	{
 		return null;
 	}
@@ -89,7 +89,7 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 	}
 
 	@Override
-	public Iterable<ItemEntity> findAllItems() 
+	public List<ItemEntity> findAllItems() 
 	{
 		return null;
 	}

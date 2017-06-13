@@ -16,7 +16,7 @@ import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 public interface PresenterServiceDao {
 	public void saveStyle(StyleDto styleDto);
 
-	public Iterable<StyleDto> findAllStyles();
+	public List<StyleDto> findAllStyles();
 
 	public StyleDto findByStyleId(Integer id);
 	
@@ -24,13 +24,13 @@ public interface PresenterServiceDao {
 
 	public void saveItemSize(ItemSizeEntity itemSizeEntity);
 
-	public Iterable<ItemSizeEntity> findAllItemSize();
+	public List<ItemSizeEntity> findAllItemSize();
 
 	public ItemSizeEntity findByItemSizeId(Integer id);
 
 	public void saveItem(ItemEntity itemEntity);
 
-	public Iterable<ItemEntity> findAllItems();
+	public List<ItemEntity> findAllItems();
 	
 	StyleDto findByStyleIdWithItems(Integer styleid);
 
