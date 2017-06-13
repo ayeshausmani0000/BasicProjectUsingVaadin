@@ -51,7 +51,7 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 			countryDto.setIsoCode(styleEntity.getCountry().getIsoCode());
 			countryDto.setName(styleEntity.getCountry().getName());
 			styles.setCountry(countryDto);
-		
+
 			styleEntities1.add(styles);
 		}
 		return styleEntities1;
@@ -118,7 +118,8 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 		style.setId(styleDto.getId());
 		style.setStyleNo(styleDto.getStyleNo());
 		style.setDesc(styleDto.getDesc());
-		if(style.getItems()!=null){
+		if(styleDto.getItems()!=null)
+		{
 		Set<ItemDto> itemDtos = styleDto.getItems();
 		Set<ItemEntity> items = new HashSet<ItemEntity>();
 		for (ItemDto itemDto : itemDtos) {
