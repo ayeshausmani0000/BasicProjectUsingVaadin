@@ -39,7 +39,11 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.vaadin.addon/confirmdialog -->
 
-
+		<dependency>
+			<groupId>addon</groupId>
+			<artifactId>pagination</artifactId>
+			<version>8.0.6</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
