@@ -11,10 +11,9 @@ import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 //import com.example.BasicProjectUsingVaadin.model.StyleEntity;
-import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 
 @RestController
-public interface PresenterDao {
+public interface PresenterServiceDao {
 	public void saveStyle(StyleDto styleDto);
 
 	public Iterable<StyleDto> findAllStyles();

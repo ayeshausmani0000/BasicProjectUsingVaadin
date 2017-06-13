@@ -5,14 +5,10 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.BasicProjectUsingVaadin.dao.PresenterDao;
+import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
 import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
-import com.example.BasicProjectUsingVaadin.impl.MasterServiceImpl;
-import com.example.BasicProjectUsingVaadin.impl.SpringDataServiceImpl;
-import com.example.BasicProjectUsingVaadin.model.CountryEntity;
-import com.example.BasicProjectUsingVaadin.model.StyleEntity;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinSession;
@@ -23,11 +19,11 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 
 @SpringView(name = UpdateView.NAME)
 public class UpdateView extends FormLayout implements View {
 
+	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Update";
 	private TextField styleNo;
 	private TextField styleDesc;
@@ -36,15 +32,11 @@ public class UpdateView extends FormLayout implements View {
 	int id = 0;
 
 	@Autowired
-	private PresenterDao presenterDao;
+	private PresenterServiceDao presenterDao;
 
 	@Autowired
 	private PresenterMasterDao presenterMasterDao;
-	// @Autowired
-	// private SpringDataServiceImpl serviceImpl;
-	//
-	// @Autowired
-	// private MasterServiceImpl masterServiceImpl;
+	
 	private Button save;
 	private HorizontalLayout layout;
 
@@ -62,37 +54,40 @@ public class UpdateView extends FormLayout implements View {
 		String status = (String) VaadinSession.getCurrent().getAttribute("update");
 
 		if (status.equals("update")) {
-			Set<StyleDto> style = (Set<StyleDto>) VaadinSession.getCurrent().getAttribute("Style");
-			for (StyleDto styleEntity : style) {
-				styleNo.setValue(styleEntity.getStyleNo());
-				styleDesc.setValue(styleEntity.getDesc());
-				countryComboBox.setValue(styleEntity.getCountry());
-				id = styleEntity.getId();
+			@SuppressWarnings("unchecked")
+			Set<StyleDto> styleDtos = (Set<StyleDto>) VaadinSession.getCurrent().getAttribute("Style");
+			for (StyleDto styleDto : styleDtos) {
+				styleNo.setValue(styleDto.getStyleNo());
+				styleDesc.setValue(styleDto.getDesc());
+				countryComboBox.setValue(styleDto.getCountry());
+				id = styleDto.getId();
 			}
 
 			update.addClickListener(e -> {
-				StyleDto pStyle = presenterDao.findByStyleId(id);
-				pStyle.setStyleNo(styleNo.getValue());
-				pStyle.setDesc(styleDesc.getValue());
-				pStyle.setCountry(countryComboBox.getSelectedItem().get());
-				presenterDao.saveStyle(pStyle);
+				StyleDto styleDto = presenterDao.findByStyleId(id);
+				styleDto.setStyleNo(styleNo.getValue());
+				styleDto.setDesc(styleDesc.getValue());
+				styleDto.setCountry(countryComboBox.getSelectedItem().get());
+				presenterDao.saveStyle(styleDto);
 				getUI().getNavigator().navigateTo(StyleView.NAME);
 			});
 
 			layout.addComponents(update, cancel);
 			addComponents(styleNo, styleDesc, countryComboBox, layout);
-		} else {
+		} 
+		
+		else {
 			save.addClickListener(e -> {
-				StyleDto styleEntity = new StyleDto();
+				StyleDto styleDto = new StyleDto();
 
-				styleEntity.setStyleNo(styleNo.getValue());
-				styleEntity.setDesc(styleDesc.getValue());
-				styleEntity.setCountry(countryComboBox.getSelectedItem().get());
-				if (presenterDao.isStyleExistV(styleEntity)) {
+				styleDto.setStyleNo(styleNo.getValue());
+				styleDto.setDesc(styleDesc.getValue());
+				styleDto.setCountry(countryComboBox.getSelectedItem().get());
+				if (presenterDao.isStyleExistV(styleDto)) {
 					Notification.show("Already exist");
 
 				} else {
-					presenterDao.saveStyle(styleEntity);
+					presenterDao.saveStyle(styleDto);
 					getUI().getNavigator().navigateTo(StyleView.NAME);
 				}
 
