@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.BasicProjectUsingVaadin.dao.PresenterDao;
+import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
 import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
@@ -33,18 +33,10 @@ public class StyleView extends VerticalLayout implements View {
 	public static final String NAME = "Style";
 
 	@Autowired
-	private PresenterDao presenterDao;
+	private PresenterServiceDao presenterDao;
 	
 	@Autowired
 	private PresenterMasterDao presenterMasterDao;
-	
-	
-
-	/*@Autowired
-	private MasterServiceImpl masterServiceImpl;
-
-	@Autowired
-	private SpringDataServiceImpl serviceImpl;*/
 
 	private TextField filter;
 	private HorizontalLayout layout;
@@ -83,26 +75,13 @@ public class StyleView extends VerticalLayout implements View {
 		comboboxFilter = new ComboBox<CountryDto>();
 		comboboxFilter.setItems((Collection<CountryDto>) countryEntities);
 
-		// Iterable<StyleEntity> styleEntities = serviceImpl.findAllStyles();
 		Iterable<StyleDto> styleEntities = presenterDao.findAllStyles();
 		Grid<StyleDto> styleGrid = new Grid<StyleDto>(StyleDto.class);
 		styleGrid.setColumns("id", "styleNo", "desc", "country");
 		ListDataProvider<StyleDto> styleDataProvider = DataProvider
 				.ofCollection((Collection<StyleDto>) styleEntities);
 
-		// search.addClickListener(e -> {
-		// StyleOverFilter filterEntity = new StyleOverFilter();
-		// filterEntity.setStyleNo(filter.getValue());
-		// filterEntity.setCountry(comboboxFilter.getValue());
-		// Iterable<StyleEntity> filterStyle =
-		// serviceImpl.filterByStyleNoAndCountry(filterEntity);
-		//
-		// ListDataProvider<StyleEntity> dataProvider1 = DataProvider
-		// .ofCollection((Collection<StyleEntity>) filterStyle);
-		// styleGrid.setDataProvider(dataProvider1);
-		//
-		// });
-
+		
 		refresh.addClickListener(e6 -> {
 			styleGrid.setDataProvider(styleDataProvider);
 		});

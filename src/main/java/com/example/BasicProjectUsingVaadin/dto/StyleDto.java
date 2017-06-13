@@ -10,7 +10,7 @@ public class StyleDto {
 	private String desc;
 	private SeasonDto season;
 	private CountryDto country;
-	private ClientDto client;
+	private ClientDTO client;
 
 	public Integer getId() {
 		return id;
@@ -52,11 +52,11 @@ public class StyleDto {
 		this.season = season;
 	}
 
-	public ClientDto getClient() {
+	public ClientDTO getClient() {
 		return client;
 	}
 
-	public void setClient(ClientDto client) {
+	public void setClient(ClientDTO client) {
 		this.client = client;
 	}
 

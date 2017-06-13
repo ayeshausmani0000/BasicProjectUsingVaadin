@@ -1,18 +1,16 @@
-package com.example.BasicProjectUsingVaadin.dao;
+package com.example.BasicProjectUsingVaadin.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.BasicProjectUsingVaadin.dao.MasterRestService;
 import com.example.BasicProjectUsingVaadin.dto.ClientDTO;
-import com.example.BasicProjectUsingVaadin.dto.CountryDTO;
-import com.example.BasicProjectUsingVaadin.dto.SeasonDTO;
-import com.example.BasicProjectUsingVaadin.dto.SizeDTO;
+import com.example.BasicProjectUsingVaadin.dto.CountryDto;
+import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
+import com.example.BasicProjectUsingVaadin.dto.SizeDto;
 import com.example.BasicProjectUsingVaadin.impl.MasterServiceImpl;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
-import com.example.BasicProjectUsingVaadin.service.MasterService;
 
 
 @RestController
@@ -22,16 +20,16 @@ public class MasterRestServiceImpl implements MasterRestService{
 	private MasterServiceImpl masterServiceImpl;
 	
 	@Override
-	public List<SeasonDTO> findAllSeason() {
+	public List<SeasonDto> findAllSeason() {
 		return null;
 	}
 
 	@Override
-	public List<CountryDTO> findAllCountry() {
+	public List<CountryDto> findAllCountry() {
 		Iterable<CountryEntity> countryEntities=masterServiceImpl.findAllCountry();
-		List<CountryDTO> countryDTOs=new ArrayList<CountryDTO>();
+		List<CountryDto> countryDTOs=new ArrayList<CountryDto>();
 		for (CountryEntity countryEntity : countryEntities) {
-			CountryDTO countryDTO=new CountryDTO();
+			CountryDto countryDTO=new CountryDto();
 			countryDTO.setName(countryEntity.getName());
 			countryDTO.setIsoCode(countryEntity.getIsoCode());
 			countryDTOs.add(countryDTO);
@@ -41,37 +39,31 @@ public class MasterRestServiceImpl implements MasterRestService{
 
 	@Override
 	public List<ClientDTO> findAllClient() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<SizeDTO> findAllSize() {
-		// TODO Auto-generated method stub
+	public List<SizeDto> findAllSize() {
 		return null;
 	}
 
 	@Override
-	public SeasonDTO findSeasonById(Integer id) {
-		// TODO Auto-generated method stub
+	public SeasonDto findSeasonById(Integer id) {
 		return null;
 	}
 
 	@Override
-	public CountryDTO findCountryById(Integer id) {
-		// TODO Auto-generated method stub
+	public CountryDto findCountryById(Integer id) {
 		return null;
 	}
 
 	@Override
 	public ClientDTO findClientById(Integer id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public SizeDTO findSizeById(Integer id) {
-		// TODO Auto-generated method stub
+	public SizeDto findSizeById(Integer id) {
 		return null;
 	}
 

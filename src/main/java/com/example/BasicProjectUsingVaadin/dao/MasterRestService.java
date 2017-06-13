@@ -3,29 +3,26 @@ package com.example.BasicProjectUsingVaadin.dao;
 import java.util.List;
 
 import com.example.BasicProjectUsingVaadin.dto.ClientDTO;
-import com.example.BasicProjectUsingVaadin.dto.CountryDTO;
-import com.example.BasicProjectUsingVaadin.dto.SeasonDTO;
-import com.example.BasicProjectUsingVaadin.dto.SizeDTO;
-import com.example.BasicProjectUsingVaadin.model.ClientEntity;
-import com.example.BasicProjectUsingVaadin.model.CountryEntity;
-import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
-import com.example.BasicProjectUsingVaadin.model.SizeEntity;
+import com.example.BasicProjectUsingVaadin.dto.CountryDto;
+import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
+import com.example.BasicProjectUsingVaadin.dto.SizeDto;
+
 
 public interface MasterRestService 
 {
-	public List<SeasonDTO> findAllSeason();
+	public List<SeasonDto> findAllSeason();
 
-	public List<CountryDTO> findAllCountry();
+	public List<CountryDto> findAllCountry();
 
 	public List<ClientDTO> findAllClient();
 	
-	public List<SizeDTO> findAllSize();
+	public List<SizeDto> findAllSize();
 
-	public SeasonDTO findSeasonById(Integer id);
+	public SeasonDto findSeasonById(Integer id);
 
-	public CountryDTO findCountryById(Integer id);
+	public CountryDto findCountryById(Integer id);
 
 	public ClientDTO findClientById(Integer id);
 	
-	public SizeDTO findSizeById(Integer id);
+	public SizeDto findSizeById(Integer id);
 }

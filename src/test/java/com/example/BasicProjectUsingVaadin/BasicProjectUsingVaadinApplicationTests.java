@@ -27,7 +27,7 @@ import com.example.BasicProjectUsingVaadin.service.Service;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(locations = "classpath:springconfig.xml")
+@ContextConfiguration(locations = "classpath:spring-config.xml")
 public class BasicProjectUsingVaadinApplicationTests {
 
 	ConfigurableApplicationContext ctx = null;
@@ -296,7 +296,7 @@ public class BasicProjectUsingVaadinApplicationTests {
 				.getBean("entityManagerService");
 		StyleEntity styleEntity = entityManagerService.findByStyleId(50);
 		System.out
-				.println(styleEntity.getDesc() + " " + styleEntity.getItems());
+				.println(styleEntity.getDesc());
 		/*
 		 * Iterable<StyleEntity>
 		 * styleIterable=entityManagerService.findAllStyles(); for (StyleEntity

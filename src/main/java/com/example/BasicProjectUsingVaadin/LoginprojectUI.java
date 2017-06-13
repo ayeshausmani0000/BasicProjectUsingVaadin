@@ -23,7 +23,8 @@ public class LoginprojectUI extends UI {
 	private SpringViewProvider viewProvider;
 
 	@Override
-	protected void init(VaadinRequest vaadinRequest) {
+	protected void init(VaadinRequest vaadinRequest) 
+	{
 		final VerticalLayout root = new VerticalLayout();
 		root.setSizeFull();
 		root.setMargin(true);
@@ -43,10 +44,9 @@ public class LoginprojectUI extends UI {
 		navigator.addProvider(viewProvider);
 	}
 
-	private Button createNavigationButton(String caption, final String viewName) {
+	private Button createNavigationButton(String caption, final String viewName) 
+	{
 		Button button = new Button(caption);
-		
-		
 		
 		button.addStyleName(ValoTheme.BUTTON_PRIMARY);
 		

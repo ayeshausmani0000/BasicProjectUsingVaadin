@@ -1,13 +1,13 @@
-package com.example.BasicProjectUsingVaadin.dao;
+package com.example.BasicProjectUsingVaadin.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.BasicProjectUsingVaadin.dto.ClientDto;
+import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dto.ClientDTO;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
 import com.example.BasicProjectUsingVaadin.dto.SizeDto;
@@ -25,7 +25,6 @@ public class PresenterMasterDaoImpl implements PresenterMasterDao {
 
 	@Override
 	public Iterable<SeasonDto> findAllSeason() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -44,38 +43,32 @@ public class PresenterMasterDaoImpl implements PresenterMasterDao {
 	}
 
 	@Override
-	public Iterable<ClientDto> findAllClient() {
-		// TODO Auto-generated method stub
+	public Iterable<ClientDTO> findAllClient() {
 		return null;
 	}
 
 	@Override
 	public Iterable<SizeDto> findAllSize() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public SeasonEntity findSeasonById(Integer id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public CountryEntity findCountryById(Integer id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ClientEntity findClientById(Integer id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public SizeEntity findSizeById(Integer id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
