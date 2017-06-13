@@ -29,7 +29,6 @@ public class EntityManagerServiceImpl implements Service {
 	private DataSource dataSource;
 	
 	@Autowired
-//	@Qualifier("emDaoImpl")
 	private EMDao emDao;
 
 	public void setDataSource(DataSource dataSource) {

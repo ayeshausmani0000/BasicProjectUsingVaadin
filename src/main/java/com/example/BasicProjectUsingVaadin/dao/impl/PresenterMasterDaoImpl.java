@@ -2,12 +2,11 @@ package com.example.BasicProjectUsingVaadin.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
-import com.example.BasicProjectUsingVaadin.dto.ClientDTO;
+import com.example.BasicProjectUsingVaadin.dto.ClientDto;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
 import com.example.BasicProjectUsingVaadin.dto.SizeDto;
@@ -43,7 +42,7 @@ public class PresenterMasterDaoImpl implements PresenterMasterDao {
 	}
 
 	@Override
-	public Iterable<ClientDTO> findAllClient() {
+	public Iterable<ClientDto> findAllClient() {
 		return null;
 	}
 

@@ -1,8 +1,7 @@
 package com.example.BasicProjectUsingVaadin.dto;
 
-import com.example.BasicProjectUsingVaadin.model.ClientEntity;
-import com.example.BasicProjectUsingVaadin.model.CountryEntity;
-import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
+import java.util.Set;
+
 
 public class StyleDto {
 	private Integer id;
@@ -10,7 +9,18 @@ public class StyleDto {
 	private String desc;
 	private SeasonDto season;
 	private CountryDto country;
-	private ClientDTO client;
+
+	private ClientDto client;
+	private Set<ItemDto> items;
+
+	public Set<ItemDto> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<ItemDto> items) {
+		this.items = items;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -52,11 +62,11 @@ public class StyleDto {
 		this.season = season;
 	}
 
-	public ClientDTO getClient() {
+	public ClientDto getClient() {
 		return client;
 	}
 
-	public void setClient(ClientDTO client) {
+	public void setClient(ClientDto client) {
 		this.client = client;
 	}
 

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.BasicProjectUsingVaadin.dao.MasterRestService;
-import com.example.BasicProjectUsingVaadin.dto.ClientDTO;
+import com.example.BasicProjectUsingVaadin.dto.ClientDto;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
 import com.example.BasicProjectUsingVaadin.dto.SizeDto;
@@ -38,7 +38,7 @@ public class MasterRestServiceImpl implements MasterRestService{
 	}
 
 	@Override
-	public List<ClientDTO> findAllClient() {
+	public List<ClientDto> findAllClient() {
 		return null;
 	}
 
@@ -58,7 +58,7 @@ public class MasterRestServiceImpl implements MasterRestService{
 	}
 
 	@Override
-	public ClientDTO findClientById(Integer id) {
+	public ClientDto findClientById(Integer id) {
 		return null;
 	}
 

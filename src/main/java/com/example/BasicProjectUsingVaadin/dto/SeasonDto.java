@@ -1,9 +1,22 @@
 package com.example.BasicProjectUsingVaadin.dto;
 
-public class SeasonDto {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+public class SeasonDto
+{
+	
 	private Integer id;
+	
+	
 	private String name;
+	
+	
 	private String description;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -22,5 +35,4 @@ public class SeasonDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 }

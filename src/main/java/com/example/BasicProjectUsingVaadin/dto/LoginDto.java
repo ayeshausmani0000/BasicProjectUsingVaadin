@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-public class LoginDTO 
+public class LoginDto 
 {
 
 	private Integer id;

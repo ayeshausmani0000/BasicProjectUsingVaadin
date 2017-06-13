@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
 import com.example.BasicProjectUsingVaadin.dao.EMDao;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;

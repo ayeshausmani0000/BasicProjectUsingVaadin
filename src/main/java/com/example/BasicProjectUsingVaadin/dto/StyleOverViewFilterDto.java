@@ -1,6 +1,5 @@
 package com.example.BasicProjectUsingVaadin.dto;
 
-import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 
 public class StyleOverViewFilterDto {
 	private String styleNo;

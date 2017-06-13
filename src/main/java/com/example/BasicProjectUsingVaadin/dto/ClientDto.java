@@ -1,6 +1,6 @@
 package com.example.BasicProjectUsingVaadin.dto;
 
-public class ClientDTO 
+public class ClientDto 
 {
 	private Integer id;
 	
