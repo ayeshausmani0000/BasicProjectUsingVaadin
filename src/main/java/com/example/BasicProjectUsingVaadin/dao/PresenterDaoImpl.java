@@ -55,6 +55,7 @@ public class PresenterDaoImpl implements PresenterDao {
 			// clientDto.setId(styleEntity.getClient().getId());
 			// clientDto.setClientName(styleEntity.getClient().getClientName());
 			// styles.setClient(clientDto);
+			
 			styleEntities1.add(styles);
 		}
 		return styleEntities1;
