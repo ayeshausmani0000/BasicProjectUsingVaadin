@@ -68,7 +68,7 @@ public class UpdateView extends FormLayout implements View {
 				styleDto.setStyleNo(styleNo.getValue());
 				styleDto.setDesc(styleDesc.getValue());
 				styleDto.setCountry(countryComboBox.getSelectedItem().get());
-				presenterDao.saveStyle(styleDto);
+				presenterDao.updateStyle(styleDto);
 				getUI().getNavigator().navigateTo(StyleView.NAME);
 			});
 
@@ -87,7 +87,7 @@ public class UpdateView extends FormLayout implements View {
 					Notification.show("Already exist");
 
 				} else {
-					presenterDao.saveStyle(styleDto);
+					presenterDao.createStyle(styleDto);
 					getUI().getNavigator().navigateTo(StyleView.NAME);
 				}
 

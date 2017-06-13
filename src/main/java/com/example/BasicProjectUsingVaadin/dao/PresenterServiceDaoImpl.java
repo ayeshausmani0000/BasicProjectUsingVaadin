@@ -1,28 +1,16 @@
 package com.example.BasicProjectUsingVaadin.dao;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
-
-import com.example.BasicProjectUsingVaadin.dto.ItemDto;
-import com.example.BasicProjectUsingVaadin.dto.ItemSizeDto;
-import com.example.BasicProjectUsingVaadin.dto.SizeDto;
-
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
 import com.example.BasicProjectUsingVaadin.model.CountryEntity;
-import com.example.BasicProjectUsingVaadin.model.ItemEntity;
-import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
-import com.example.BasicProjectUsingVaadin.model.SizeEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleEntity;
 import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 import com.example.BasicProjectUsingVaadin.service.Service;
@@ -64,149 +52,34 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 		service.deleteStyle(id);
 	}
 
+	
 	@Override
-	public void saveItemSize(ItemSizeEntity itemSizeEntity) 
+	public void createStyle(StyleDto styleDto) 
 	{
-
-	}
-
-	@Override
-	public List<ItemSizeEntity> findAllItemSize() 
-	{
-		return null;
-	}
-
-	@Override
-	public ItemSizeEntity findByItemSizeId(Integer id) 
-	{
-		return null;
-	}
-
-	@Override
-	public void saveItem(ItemEntity itemEntity) 
-	{
-
-	}
-
-	@Override
-	public List<ItemEntity> findAllItems() 
-	{
-		return null;
-	}
-
-	@Override
-	public ItemEntity findByItemId(Integer id) 
-	{
-		return null;
-	}
-
-	@Override
-	public boolean validateUser(String username, String password) 
-	{
-		return false;
-	}
-
-	@Override
-	public List<ItemEntity> findByItemNumber(String itemNo) 
-	{
-		return null;
-	}
-
-	@Override
-	public void saveStyle(StyleDto styleDto) 
-	{
-		StyleEntity style = new StyleEntity();
-		style.setId(styleDto.getId());
-		style.setStyleNo(styleDto.getStyleNo());
-		style.setDesc(styleDto.getDesc());
-		if(styleDto.getItems()!=null)
-		{
-		Set<ItemDto> itemDtos = styleDto.getItems();
-		Set<ItemEntity> items = new HashSet<ItemEntity>();
-		for (ItemDto itemDto : itemDtos) {
-			ItemEntity itemEntity = new ItemEntity();
-			itemEntity.setItemId(itemDto.getItemId());
-			itemEntity.setItemNo(itemDto.getItemNo());
-			itemEntity.setColor(itemDto.getColor());
-			itemEntity.setStyle(style);
-			Set<ItemSizeDto> itemSizeDtos = itemDto.getItemSizes();
-			Set<ItemSizeEntity> itemSizes = new HashSet<ItemSizeEntity>();
-			for (ItemSizeDto itemSizeDto : itemSizeDtos) {
-				ItemSizeEntity itemSizeEntity = new ItemSizeEntity();
-				itemSizeEntity.setItemsizeId(itemSizeDto.getItemsizeId());
-				itemSizeEntity.setQuantity(itemSizeDto.getQuantity());
-				
-				SizeEntity sizeEntity = new SizeEntity();
-				sizeEntity.setSizeId(itemSizeDto.getSize().getSizeId());
-				sizeEntity.setSizeCode(itemSizeDto.getSize().getSizeCode());
-				itemSizeEntity.setSize(sizeEntity);
-				itemSizes.add(itemSizeEntity);
-			}
-			items.add(itemEntity);
-			itemEntity.setItemSizes(itemSizes);
-		}
-			style.setItems(items);
-		}
+		StyleEntity style=convertStyleDtoToEntity(styleDto);
 		
-		CountryEntity country = new CountryEntity();
-		country.setId(styleDto.getCountry().getId());
-		country.setIsoCode(styleDto.getCountry().getIsoCode());
-		country.setName(styleDto.getCountry().getName());
-		style.setCountry(country);
 		service.saveStyle(style);
 	}
 
 	@Override
 	public StyleDto findByStyleId(Integer id) 
 	{
-		StyleDto styleDto = new StyleDto();
 		StyleEntity styleEntity = service.findByStyleId(id);
-		styleDto.setId(styleEntity.getId());
-		styleDto.setStyleNo(styleEntity.getStyleNo());
-		styleDto.setDesc(styleEntity.getDesc());
-		Set<ItemEntity> items = styleEntity.getItems();
-		Set<ItemDto> itemDtos = new HashSet<ItemDto>();
-		for (ItemEntity item : items) {
-			ItemDto itemDto = new ItemDto();
-			itemDto.setItemId(item.getItemId());
-			itemDto.setItemNo(item.getItemNo());
-			itemDto.setColor(item.getColor());
-			itemDto.setStyle(styleDto);
-			Set<ItemSizeEntity> itemSizes = item.getItemSizes();
-			Set<ItemSizeDto> itemSizeDtos = new HashSet<ItemSizeDto>();
-			for (ItemSizeEntity itemSize : itemSizes) {
-				ItemSizeDto itemSizeDto = new ItemSizeDto();
-				itemSizeDto.setItemsizeId(itemSize.getItemsizeId());
-				itemSizeDto.setQuantity(itemSize.getQuantity());
-				SizeDto sizeDto = new SizeDto();
-				sizeDto.setSizeId(itemSize.getSize().getSizeId());
-				sizeDto.setSizeCode(itemSize.getSize().getSizeCode());
-				itemSizeDto.setSize(sizeDto);
-				itemSizeDtos.add(itemSizeDto);
-			}
-			itemDtos.add(itemDto);
-			itemDto.setItemSizes(itemSizeDtos);
-		}
-		styleDto.setItems(itemDtos);
-		CountryDto countryDto = new CountryDto();
-		countryDto.setId(styleEntity.getCountry().getId());
-		countryDto.setIsoCode(styleEntity.getCountry().getIsoCode());
-		countryDto.setName(styleEntity.getCountry().getName());
-		styleDto.setCountry(countryDto);
+		StyleDto styleDto=convertStyleEntityToDTO(styleEntity);
 		return styleDto;
 	}
 
 	@Override
-	public StyleDto findByStyleIdWithItems(Integer styleid) 
+	public void updateStyle(StyleDto styleDto) 
 	{
-		return null;
+		StyleEntity style=service.findByStyleId(styleDto.getId());
+		style.setStyleNo(styleDto.getStyleNo());
+		style.setDesc(styleDto.getDesc());
+		style.setCountry(convertCountryDtoToEntity(styleDto.getCountry()));
+		service.saveStyle(style);
+		
 	}
 
-	@Override
-	public boolean isStyleExist(StyleDto styleEntity, SeasonEntity seasonEntity, ClientEntity clientEntity) 
-	{
-		return false;
-	}
 
 	@Override
 	public boolean isStyleExistV(StyleDto styleDto) 
@@ -223,11 +96,11 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 			season.setName(styleDto.getSeason().getName());
 			style.setSeason(season);
 		}
-		CountryEntity country = new CountryEntity();
+		/*CountryEntity country = new CountryEntity();
 		country.setId(styleDto.getCountry().getId());
 		country.setIsoCode(styleDto.getCountry().getIsoCode());
-		country.setName(styleDto.getCountry().getName());
-		style.setCountry(country);
+		country.setName(styleDto.getCountry().getName());*/
+		style.setCountry(convertCountryDtoToEntity(styleDto.getCountry()));
 		if (style.getClient() != null) 
 		{
 			ClientEntity client = new ClientEntity();
@@ -268,10 +141,61 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 			countryDto.setIsoCode(styleEntity.getCountry().getIsoCode());
 			countryDto.setName(styleEntity.getCountry().getName());
 			styles.setCountry(countryDto);
+			
+			/*StyleDto styles= new StyleDto();
+			styles=convertStyleEntityToDTO(styleEntity);
+			styles.setCountry(convertCountryEntityToDTO(styleEntity.getCountry()));*/
 		
 			styleEntities1.add(styles);
 		}
 		return styleEntities1;
 	}
+	
+	
+	public StyleEntity convertStyleDtoToEntity(StyleDto styleDto){
 
+	StyleEntity styleEntity = new StyleEntity();
+
+	styleEntity.setStyleNo(styleDto.getStyleNo());
+	styleEntity.setDesc(styleDto.getDesc());
+	
+	styleEntity.setCountry(convertCountryDtoToEntity(styleDto.getCountry()));
+		return styleEntity;
+	}
+	
+	
+	public StyleDto convertStyleEntityToDTO(StyleEntity styleEntity)
+	{
+		StyleDto styleDto = new StyleDto();
+	
+		styleDto.setId(styleEntity.getId());
+		styleDto.setStyleNo(styleEntity.getStyleNo());
+		styleDto.setDesc(styleEntity.getDesc());
+		if(styleEntity.getCountry()!=null){
+			styleDto.setCountry(convertCountryEntityToDTO(styleEntity.getCountry()));
+
+		}
+		return styleDto;
+	}
+	
+	public CountryEntity convertCountryDtoToEntity(CountryDto countryDto)
+	{
+		CountryEntity countryEntity = new CountryEntity();
+		countryEntity.setId(countryDto.getId());
+		countryEntity.setIsoCode(countryDto.getIsoCode());
+		countryEntity.setName(countryDto.getName());
+		return countryEntity;
+	}
+	
+	
+	public CountryDto convertCountryEntityToDTO(CountryEntity countryEntity)
+	{
+		CountryDto countryDto = new CountryDto();
+		countryDto.setId(countryDto.getId());
+		countryDto.setIsoCode(countryDto.getIsoCode());
+		countryDto.setName(countryDto.getName());
+		return countryDto;
+	}
+
+	
 }

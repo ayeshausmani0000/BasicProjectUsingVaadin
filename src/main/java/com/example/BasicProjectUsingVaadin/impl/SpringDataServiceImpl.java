@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.BasicProjectUsingVaadin.dao.EMDao;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
-import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemSizeEntity;
 import com.example.BasicProjectUsingVaadin.model.LoginEntity;
@@ -37,6 +36,7 @@ public class SpringDataServiceImpl implements Service {
 	@Autowired
 	private ItemRepository itemRepository;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private DataSource dataSource;
 
