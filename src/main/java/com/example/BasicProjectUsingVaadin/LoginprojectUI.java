@@ -39,7 +39,7 @@ public class LoginprojectUI extends UI {
 		
 		root.addComponents(navigationBar);
 
-
+	
 		Navigator navigator = new Navigator(this, this);
 		navigator.addProvider(viewProvider);
 	}
