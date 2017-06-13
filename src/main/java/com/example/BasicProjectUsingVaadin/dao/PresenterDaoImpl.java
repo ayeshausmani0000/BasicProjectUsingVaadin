@@ -119,6 +119,7 @@ public class PresenterDaoImpl implements PresenterDao {
 		style.setId(styleDto.getId());
 		style.setStyleNo(styleDto.getStyleNo());
 		style.setDesc(styleDto.getDesc());
+		if(style.getItems()!=null){
 		Set<ItemDto> itemDtos = styleDto.getItems();
 		Set<ItemEntity> items = new HashSet<ItemEntity>();
 		for (ItemDto itemDto : itemDtos) {
@@ -127,13 +128,13 @@ public class PresenterDaoImpl implements PresenterDao {
 			itemEntity.setItemNo(itemDto.getItemNo());
 			itemEntity.setColor(itemDto.getColor());
 			itemEntity.setStyle(style);
-			
 			Set<ItemSizeDto> itemSizeDtos = itemDto.getItemSizes();
 			Set<ItemSizeEntity> itemSizes = new HashSet<ItemSizeEntity>();
 			for (ItemSizeDto itemSizeDto : itemSizeDtos) {
 				ItemSizeEntity itemSizeEntity = new ItemSizeEntity();
 				itemSizeEntity.setItemsizeId(itemSizeDto.getItemsizeId());
 				itemSizeEntity.setQuantity(itemSizeDto.getQuantity());
+				
 				SizeEntity sizeEntity = new SizeEntity();
 				sizeEntity.setSizeId(itemSizeDto.getSize().getSizeId());
 				sizeEntity.setSizeCode(itemSizeDto.getSize().getSizeCode());
@@ -144,6 +145,7 @@ public class PresenterDaoImpl implements PresenterDao {
 			itemEntity.setItemSizes(itemSizes);
 		}
 		style.setItems(items);
+		}
 		CountryEntity country = new CountryEntity();
 		country.setId(styleDto.getCountry().getId());
 		country.setIsoCode(styleDto.getCountry().getIsoCode());
