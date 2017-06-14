@@ -9,7 +9,7 @@ import com.example.BasicProjectUsingVaadin.model.CountryEntity;
 import com.example.BasicProjectUsingVaadin.model.SeasonEntity;
 import com.example.BasicProjectUsingVaadin.model.SizeEntity;
 
-public interface PresenterMasterDao {
+public interface MasteRestDao {
 	public Iterable<SeasonDto> findAllSeason();
 
 	public Iterable<CountryDto> findAllCountry();

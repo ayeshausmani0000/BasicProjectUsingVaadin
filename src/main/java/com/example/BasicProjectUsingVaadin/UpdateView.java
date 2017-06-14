@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
-import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
+import com.example.BasicProjectUsingVaadin.dao.MasteRestDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.vaadin.navigator.View;
@@ -32,10 +32,10 @@ public class UpdateView extends FormLayout implements View {
 	int id = 0;
 
 	@Autowired
-	private PresenterServiceDao presenterDao;
+	private ServiceRestDao presenterDao;
 
 	@Autowired
-	private PresenterMasterDao presenterMasterDao;
+	private MasteRestDao presenterMasterDao;
 	
 	private Button save;
 	private HorizontalLayout layout;

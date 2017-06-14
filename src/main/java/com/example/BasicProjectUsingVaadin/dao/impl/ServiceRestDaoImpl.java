@@ -1,10 +1,12 @@
-package com.example.BasicProjectUsingVaadin.dao;
+package com.example.BasicProjectUsingVaadin.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
@@ -16,7 +18,7 @@ import com.example.BasicProjectUsingVaadin.model.StyleOverFilter;
 import com.example.BasicProjectUsingVaadin.service.Service;
 
 @RestController
-public class PresenterServiceDaoImpl implements PresenterServiceDao 
+public class ServiceRestDaoImpl implements ServiceRestDao 
 {
 	@Autowired
 	@Qualifier("springDataServiceImpl")

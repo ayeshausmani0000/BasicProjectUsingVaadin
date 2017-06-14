@@ -42,7 +42,6 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot-starter</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.vaadin.addon/confirmdialog -->
 
 		<dependency>
 			<groupId>addon</groupId>
@@ -54,8 +53,10 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-jdbc</artifactId> 
-			</dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>

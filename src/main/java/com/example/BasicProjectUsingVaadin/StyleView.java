@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
-import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
+import com.example.BasicProjectUsingVaadin.dao.MasteRestDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
@@ -28,16 +28,16 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 @SpringView(name = StyleView.NAME)
-public class StyleView extends VerticalLayout implements View {
-
+public class StyleView extends VerticalLayout implements View 
+{
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Style";
 
 	@Autowired
-	private PresenterServiceDao presenterDao;
+	private ServiceRestDao presenterDao;
 
 	@Autowired
-	private PresenterMasterDao presenterMasterDao;
+	private MasteRestDao presenterMasterDao;
 
 	private TextField filter;
 	private HorizontalLayout layout;

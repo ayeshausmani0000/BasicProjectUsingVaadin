@@ -9,7 +9,7 @@ import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 
 
 @RestController
-public interface PresenterServiceDao {
+public interface ServiceRestDao {
 	public void createStyle(StyleDto styleDto);
 	
 	public void updateStyle(StyleDto styleDto);
