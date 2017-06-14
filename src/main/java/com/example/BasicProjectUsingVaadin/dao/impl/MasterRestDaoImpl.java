@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dao.MasteRestDao;
 import com.example.BasicProjectUsingVaadin.dto.ClientDto;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
@@ -17,7 +17,7 @@ import com.example.BasicProjectUsingVaadin.model.SizeEntity;
 import com.example.BasicProjectUsingVaadin.service.MasterService;
 
 @RestController
-public class PresenterMasterDaoImpl implements PresenterMasterDao {
+public class MasterRestDaoImpl implements MasteRestDao {
 
 	@Autowired
 	private MasterService masterService;
