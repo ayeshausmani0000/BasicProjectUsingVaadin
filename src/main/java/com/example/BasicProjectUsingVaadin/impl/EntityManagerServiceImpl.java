@@ -25,9 +25,11 @@ public class EntityManagerServiceImpl implements Service {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private DataSource dataSource;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private EMDao emDao;
 

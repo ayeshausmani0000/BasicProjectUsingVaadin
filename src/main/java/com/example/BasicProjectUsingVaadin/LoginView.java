@@ -12,6 +12,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.ValoTheme;
 
 
 
@@ -49,6 +50,8 @@ public class LoginView extends VerticalLayout implements View{
 				Notification.show("Invalid Username/Password");
 			}
 		});
+		
+		submit.setStyleName(ValoTheme.BUTTON_PRIMARY);
 		
 		loginForm.addComponents(username,password,submit);
 		loginForm.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
