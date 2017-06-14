@@ -28,7 +28,7 @@ public class PresenterMasterDaoImpl implements PresenterMasterDao {
 	}
 
 	@Override
-	public Iterable<CountryDto> findAllCountry() {
+	public List<CountryDto> findAllCountry() {
 		Iterable<CountryEntity> countries = masterService.findAllCountry();
 		List<CountryDto> countriesDto = new ArrayList<CountryDto>();
 		for (CountryEntity countryEntity : countries) {

@@ -1,12 +1,13 @@
 package com.example.BasicProjectUsingVaadin;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
 import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
+import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.vaadin.navigator.View;
@@ -20,8 +21,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
-@SpringView(name = UpdateView.NAME)
-public class UpdateView extends FormLayout implements View {
+@SpringView(name = SaveAndUpdateView.NAME)
+public class SaveAndUpdateView extends FormLayout implements View {
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Update";
@@ -48,9 +49,8 @@ public class UpdateView extends FormLayout implements View {
 		update = new Button("Update");
 		cancel = new Button("Cancel");
 		save = new Button("Save");
-		Iterable<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
-		ComboBox<CountryDto> countryComboBox = new ComboBox<CountryDto>("Select Country");
-		countryComboBox.setItems((Collection<CountryDto>) countryEntities);
+		List<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
+		ComboBox countryComboBox = new ComboBox("Select country", countryEntities);
 		String status = (String) VaadinSession.getCurrent().getAttribute("update");
 
 		if (status.equals("update")) {
@@ -67,7 +67,8 @@ public class UpdateView extends FormLayout implements View {
 				StyleDto styleDto = presenterDao.findByStyleId(id);
 				styleDto.setStyleNo(styleNo.getValue());
 				styleDto.setDesc(styleDesc.getValue());
-				styleDto.setCountry(countryComboBox.getSelectedItem().get());
+				styleDto.setCountry((CountryDto) countryComboBox.getData());
+//				styleDto.setCountry(countryComboBox.getSelectedItem().get());
 				presenterDao.updateStyle(styleDto);
 				getUI().getNavigator().navigateTo(StyleView.NAME);
 			});
@@ -82,7 +83,7 @@ public class UpdateView extends FormLayout implements View {
 
 				styleDto.setStyleNo(styleNo.getValue());
 				styleDto.setDesc(styleDesc.getValue());
-				styleDto.setCountry(countryComboBox.getSelectedItem().get());
+				styleDto.setCountry((CountryDto) countryComboBox.getData());
 				if (presenterDao.isStyleExistV(styleDto)) {
 					Notification.show("Already exist");
 

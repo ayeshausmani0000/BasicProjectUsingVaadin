@@ -1,5 +1,7 @@
 package com.example.BasicProjectUsingVaadin.dao;
 
+import java.util.List;
+
 import com.example.BasicProjectUsingVaadin.dto.ClientDto;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.SeasonDto;
@@ -12,7 +14,7 @@ import com.example.BasicProjectUsingVaadin.model.SizeEntity;
 public interface PresenterMasterDao {
 	public Iterable<SeasonDto> findAllSeason();
 
-	public Iterable<CountryDto> findAllCountry();
+	public List<CountryDto> findAllCountry();
 
 	public Iterable<ClientDto> findAllClient();
 
