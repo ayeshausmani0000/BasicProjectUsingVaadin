@@ -240,7 +240,7 @@ public class PresenterServiceDaoImpl implements PresenterServiceDao
 	}
 
 	@Override
-	public Iterable<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity) 
+	public List<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity) 
 	{
 
 		StyleOverFilter filterStyleEntity = new StyleOverFilter();

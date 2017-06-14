@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.BasicProjectUsingVaadin.dao.PresenterServiceDao;
 import com.example.BasicProjectUsingVaadin.dao.PresenterMasterDao;
@@ -51,6 +54,13 @@ public class StyleView extends VerticalLayout implements View {
 	private final Window window = new Window();
 	private Integer id;
 
+	// Pagination pagination =new Pagination();
+
+	/*
+	 * @PostConstruct private void init(){ pagination=createPagination(total,
+	 * page, limit) }
+	 */
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		layout = new HorizontalLayout();
@@ -68,7 +78,6 @@ public class StyleView extends VerticalLayout implements View {
 		HorizontalLayout horizontalLayout1 = new HorizontalLayout();
 		horizontalLayout1.addComponents(yesButton, noButton);
 		popupVLayout.addComponents(label, horizontalLayout1);
-
 		window.setContent(popupVLayout);
 		window.center();
 		window.setWidth("350px");
@@ -78,24 +87,25 @@ public class StyleView extends VerticalLayout implements View {
 		comboboxFilter = new ComboBox<CountryDto>();
 		comboboxFilter.setItems((Collection<CountryDto>) countryEntities);
 		List<StyleDto> styleEntities = presenterDao.findAllStyles();
-
 		Grid<StyleDto> styleGrid = new Grid<StyleDto>(StyleDto.class);
+		Pagination pagination = createPagination(styleEntities.size(), 1, 4);
+
+		pagination.addComponent(styleGrid);
 		styleGrid.setColumns("id", "styleNo", "desc", "country");
 		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities);
 
 		refresh.addClickListener(e6 -> {
-			styleGrid.setDataProvider(styleDataProvider);
+		 styleGrid.setDataProvider(styleDataProvider);
+		 //pagination.addComponent(styleGrid);
 		});
 
-		final Pagination pagination = createPagination(styleEntities.size(), 1, 7);
 		search.addClickListener(e -> {
 			StyleOverViewFilterDto filterEntity = new StyleOverViewFilterDto();
 			filterEntity.setStyleNo(filter.getValue());
 			filterEntity.setCountry(comboboxFilter.getValue());
-			Iterable<StyleDto> filterStyle = presenterDao.filterByStyleNoAndCountry(filterEntity);
+			List<StyleDto> filterStyle = presenterDao.filterByStyleNoAndCountry(filterEntity);
 
 			ListDataProvider<StyleDto> dataProvider1 = DataProvider.ofCollection((Collection<StyleDto>) filterStyle);
-			styleGrid.clearSortOrder();
 			styleGrid.setDataProvider(dataProvider1);
 
 		});
@@ -141,9 +151,9 @@ public class StyleView extends VerticalLayout implements View {
 			getUI().getNavigator().navigateTo(UpdateView.NAME);
 		});
 		pagination.addPageChangeListener(e10 -> {
-			styleGrid.setItems(styleEntities.subList(e10.fromIndex(), e10.toIndex()));
-			// styleGrid.setDataProvider(dataProvider);
-			// styleGrid.scrollToStart();
+			styleGrid.setItems(styleEntities.subList(e10.fromIndex(), e10.toIndex())); // styleGrid.setDataProvider(dataProvider);
+																						// //
+			styleGrid.scrollToStart();
 		});
 
 		styleGrid.setDataProvider(styleDataProvider);
@@ -157,7 +167,7 @@ public class StyleView extends VerticalLayout implements View {
 		final PaginationResource paginationResource = PaginationResource.newBuilder().setTotal(total).setPage(page)
 				.setLimit(limit).build();
 		final Pagination pagination = new Pagination(paginationResource);
-		pagination.setItemsPerPage(5, 6, 7, 8);
+		pagination.setItemsPerPage(5);
 		return pagination;
 	}
 

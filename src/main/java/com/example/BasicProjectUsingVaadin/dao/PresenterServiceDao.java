@@ -44,5 +44,5 @@ public interface PresenterServiceDao {
 	
 	public List<ItemEntity> findByItemNumber(String itemNo);
 	
-	public Iterable<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity);
+	public List<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity);
 }
