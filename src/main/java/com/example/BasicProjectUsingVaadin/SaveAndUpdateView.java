@@ -2,9 +2,7 @@ package com.example.BasicProjectUsingVaadin;
 
 import java.util.Collection;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
 import com.example.BasicProjectUsingVaadin.dao.MasteRestDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
@@ -59,11 +57,10 @@ public class SaveAndUpdateView extends FormLayout implements View {
 			for (StyleDto styleDto : styleDtos) {
 				styleNo.setValue(styleDto.getStyleNo());
 				styleDesc.setValue(styleDto.getDesc());
-				System.out.println(styleDto.getDesc());
 				countryComboBox.setValue(styleDto.getCountry());
 				id = styleDto.getId();
 			}
-
+			
 			update.addClickListener(e -> {
 				StyleDto styleDto = presenterDao.findByStyleId(id);
 				styleDto.setStyleNo(styleNo.getValue());
@@ -74,7 +71,7 @@ public class SaveAndUpdateView extends FormLayout implements View {
 			});
 
 			layout.addComponents(update, cancel);
-			addComponents(styleNo, styleDesc, countryComboBox, layout);
+			addComponents(styleNo, styleDesc,countryComboBox,layout);
 		} 
 		
 		else {

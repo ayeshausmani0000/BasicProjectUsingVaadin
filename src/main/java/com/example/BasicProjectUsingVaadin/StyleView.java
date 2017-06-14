@@ -28,8 +28,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 @SpringView(name = StyleView.NAME)
-public class StyleView extends VerticalLayout implements View 
-{
+public class StyleView extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Style";
 
@@ -52,8 +51,9 @@ public class StyleView extends VerticalLayout implements View
 	private TextField textField;
 	private Button yesButton;
 	private Button noButton;
-	private TextField editorTextfield;
-	
+	private Pagination pagination = new Pagination();
+	private Integer id1;
+	private TextField textField2;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -64,14 +64,14 @@ public class StyleView extends VerticalLayout implements View
 		delete = new Button("Delete");
 		addStyle = new Button("Add Style");
 		refresh = new Button("Refresh");
-		textField=new TextField();
+		textField = new TextField();
 		yesButton = new Button("Yes");
 		noButton = new Button("No");
-		
+
 		final VerticalLayout popupVLayout = new VerticalLayout();
 		Label label = new Label("Do You Really Want to Delete It");
 		HorizontalLayout horizontalLayout1 = new HorizontalLayout();
-		
+
 		horizontalLayout1.addComponents(yesButton, noButton);
 		popupVLayout.addComponents(label, horizontalLayout1);
 
@@ -86,32 +86,42 @@ public class StyleView extends VerticalLayout implements View
 		List<StyleDto> styleEntities = presenterDao.findAllStyles();
 
 		Grid<StyleDto> styleGrid = new Grid<StyleDto>(StyleDto.class);
-		styleGrid.setColumns("id", "desc", "country");
-		
+		styleGrid.setColumns("id","styleNo", "desc","country");
+
 		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities);
-		
-		styleGrid.addColumn(StyleDto::getStyleNo)
+		textField=new TextField();
+		textField2=new TextField();
+		/*styleGrid.addColumn(StyleDto::getStyleNo)
 		.setEditorComponent(textField, StyleDto::setStyleNo ).setCaption("StyleNo")
 		.setExpandRatio(1);
-		editorTextfield=new TextField();
-		styleGrid.addColumn(StyleDto::getDesc).setEditorComponent(editorTextfield, StyleDto::setDesc).setCaption("Desc")
+
+		styleGrid.addColumn(StyleDto::getDesc)
+		.setEditorComponent(textField2, StyleDto::setDesc)
+		.setCaption("Desc")
 		.setExpandRatio(1);
 		
-		styleGrid.getEditor().setEnabled(true);
+		for(StyleDto style:styleEntities)
+		{
+			id1=style.getId();
+			textField.setValue(style.getStyleNo());
+			textField2.setValue(style.getDesc());
+		}
+
 		styleGrid.getEditor().addSaveListener(e5->{
-			Set<StyleDto> styleDto=styleGrid.getSelectedItems();
-			
+			StyleDto styleDto = presenterDao.findByStyleId(id1);
+			styleDto.setStyleNo(textField.getValue());
+			styleDto.setDesc(textField2.getValue());
+				
 			VaadinSession.getCurrent().setAttribute("update", "update");
 			VaadinSession.getCurrent().setAttribute("Style",styleDto);
 			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
 		});
-		 
-		
+		styleGrid.getEditor().setEnabled(true);
+*/
 		refresh.addClickListener(e6 -> {
-			styleGrid.setData(createPagination(styleEntities.size(), 1, 7));		
-			});
+			styleGrid.setData(createPagination(styleEntities.size(), 1, 7));
+		});
 
-		
 		search.addClickListener(e -> {
 			StyleOverViewFilterDto filterEntity = new StyleOverViewFilterDto();
 			filterEntity.setStyleNo(filter.getValue());
@@ -153,26 +163,25 @@ public class StyleView extends VerticalLayout implements View
 			});
 		});
 
-		
 		addStyle.addClickListener(e3 -> {
 			VaadinSession.getCurrent().setAttribute("update", "add");
 			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
 		});
-		
-		final Pagination pagination = createPagination(styleEntities.size(), 1, 7);
-		
+
+		pagination = createPagination(styleEntities.size(), 1, 7);
+
 		pagination.addPageChangeListener(e10 -> {
 			styleGrid.setItems(styleEntities.subList(e10.fromIndex(), e10.toIndex()));
-		
+
 		});
-		
+
 		styleGrid.setDataProvider(styleDataProvider);
 		styleGrid.getEditor().setEnabled(true);
-		
+
 		layout.addComponents(filter, comboboxFilter, search, addStyle, update, delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
-		
+
 		addComponents(layout, pagination, styleGrid);
 	}
 
@@ -180,7 +189,7 @@ public class StyleView extends VerticalLayout implements View
 		final PaginationResource paginationResource = PaginationResource.newBuilder().setTotal(total).setPage(page)
 				.setLimit(limit).build();
 		final Pagination pagination = new Pagination(paginationResource);
-		pagination.setItemsPerPage(5, 6, 7, 8);
+		pagination.setItemsPerPage(5,6,7);
 		return pagination;
 	}
 

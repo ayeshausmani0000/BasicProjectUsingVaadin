@@ -63,14 +63,12 @@ public class SpringDataServiceImpl implements Service {
 	public StyleEntity findByStyleId(Integer styleid) {
 		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
-
 	}
 
 	@Override
 	public StyleEntity findByStyleIdWithItems(Integer styleid) {
 		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
-
 	}
 
 	@Override
@@ -105,32 +103,26 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public ItemEntity findByItemId(Integer itemId) {
-
 		return itemRepository.findOne(itemId);
 	
 	}
 
 	@Override
 	public boolean isStyleExist(StyleEntity styleEntity, SeasonEntity seasonEntity, ClientEntity clientEntity) {
-
 		return false;
 	}
 
 	@Override
 	public boolean validateUser(String username, String password) {
-
 		LoginEntity user = loginRepository.findByUsernameAndPassword(username, password);
 		if (user != null) {
 			return true;
 		}
-		
 		return false;
-
 	}
 
 	@Override
 	public List<ItemEntity> findByItemNumber(String itemNo) {
-
 		List<ItemEntity> items = new ArrayList<ItemEntity>();
 
 		Iterable<ItemEntity> itemEntities = itemRepository.findAll();
@@ -139,9 +131,7 @@ public class SpringDataServiceImpl implements Service {
 				items.add(itemEntity);
 			}
 		}
-
 		return items;
-
 	}
 
 	@Override
@@ -156,7 +146,7 @@ public class SpringDataServiceImpl implements Service {
 	
 	public Iterable<StyleEntity> filterByStyleNoAndCountry(StyleOverFilter filterEntity)
 	{
-	return emDao.filterByStyleNoAndCountry(filterEntity);
+		return emDao.filterByStyleNoAndCountry(filterEntity);
 	}
 
 	

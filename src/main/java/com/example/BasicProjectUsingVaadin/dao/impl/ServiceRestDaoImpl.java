@@ -53,7 +53,6 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 		service.deleteStyle(id);
 	}
 
-	
 	@Override
 	public void createStyle(StyleDto styleDto) 
 	{
@@ -80,7 +79,6 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 		service.saveStyle(style);
 		
 	}
-
 
 	@Override
 	public boolean isStyleExistV(StyleDto styleDto) 
