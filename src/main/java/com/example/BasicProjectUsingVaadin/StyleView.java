@@ -52,6 +52,7 @@ public class StyleView extends VerticalLayout implements View
 	private TextField textField;
 	private Button yesButton;
 	private Button noButton;
+	private TextField editorTextfield;
 	
 
 	@Override
@@ -89,16 +90,28 @@ public class StyleView extends VerticalLayout implements View
 		
 		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities);
 		
-		 styleGrid.addColumn(StyleDto::getStyleNo)
-         .setEditorComponent(textField, StyleDto::setStyleNo)
-         .setCaption("StyleNo")
-         .setExpandRatio(2);
+		styleGrid.addColumn(StyleDto::getStyleNo)
+		.setEditorComponent(textField, StyleDto::setStyleNo ).setCaption("StyleNo")
+		.setExpandRatio(1);
+		editorTextfield=new TextField();
+		styleGrid.addColumn(StyleDto::getDesc).setEditorComponent(editorTextfield, StyleDto::setDesc).setCaption("Desc")
+		.setExpandRatio(1);
+		
+		styleGrid.getEditor().setEnabled(true);
+		styleGrid.getEditor().addSaveListener(e5->{
+			Set<StyleDto> styleDto=styleGrid.getSelectedItems();
+			
+			VaadinSession.getCurrent().setAttribute("update", "update");
+			VaadinSession.getCurrent().setAttribute("Style",styleDto);
+			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
+		});
+		 
 		
 		refresh.addClickListener(e6 -> {
 			styleGrid.setData(createPagination(styleEntities.size(), 1, 7));		
 			});
 
-		final Pagination pagination = createPagination(styleEntities.size(), 1, 7);
+		
 		search.addClickListener(e -> {
 			StyleOverViewFilterDto filterEntity = new StyleOverViewFilterDto();
 			filterEntity.setStyleNo(filter.getValue());
@@ -136,25 +149,30 @@ public class StyleView extends VerticalLayout implements View
 			update.addClickListener(e2 -> {
 				VaadinSession.getCurrent().setAttribute("update", "update");
 				VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
-				getUI().getNavigator().navigateTo(UpdateView.NAME);
+				getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
 			});
 		});
 
 		
 		addStyle.addClickListener(e3 -> {
 			VaadinSession.getCurrent().setAttribute("update", "add");
-			getUI().getNavigator().navigateTo(UpdateView.NAME);
+			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
 		});
+		
+		final Pagination pagination = createPagination(styleEntities.size(), 1, 7);
+		
 		pagination.addPageChangeListener(e10 -> {
 			styleGrid.setItems(styleEntities.subList(e10.fromIndex(), e10.toIndex()));
 		
 		});
-
+		
 		styleGrid.setDataProvider(styleDataProvider);
 		styleGrid.getEditor().setEnabled(true);
+		
 		layout.addComponents(filter, comboboxFilter, search, addStyle, update, delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
+		
 		addComponents(layout, pagination, styleGrid);
 	}
 

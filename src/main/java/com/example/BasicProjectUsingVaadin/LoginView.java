@@ -14,8 +14,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
-
-
 @SpringView(name=LoginView.NAME)
 public class LoginView extends VerticalLayout implements View{
 

@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.BasicProjectUsingVaadin.dao.EMDao;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemEntity;
@@ -64,7 +61,6 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public StyleEntity findByStyleId(Integer styleid) {
-		//StyleEntity styleEntity = styleRepository.findOne(styleid);
 		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
 
@@ -72,7 +68,6 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public StyleEntity findByStyleIdWithItems(Integer styleid) {
-		// StyleEntity styleEntity = styleRepository.findById(styleid);
 		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
 
@@ -112,8 +107,7 @@ public class SpringDataServiceImpl implements Service {
 	public ItemEntity findByItemId(Integer itemId) {
 
 		return itemRepository.findOne(itemId);
-		// return itemRepository.findByitemId(itemId);
-		// return itemRepository.findByIdUsingJpql(itemId);
+	
 	}
 
 	@Override
@@ -129,16 +123,7 @@ public class SpringDataServiceImpl implements Service {
 		if (user != null) {
 			return true;
 		}
-		// int count = 0;
-		// Iterable<LoginEntity> loginData = loginRepository.findAll();
-		//
-		// for (LoginEntity loginEntity : loginData) {
-		// if (loginEntity.getUsername().equals(username) &&
-		// loginEntity.getPassword().equals(password))
-		// count++;
-		// }
-		// if (count > 0)
-		// return true;
+		
 		return false;
 
 	}

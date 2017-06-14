@@ -20,8 +20,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
-@SpringView(name = UpdateView.NAME)
-public class UpdateView extends FormLayout implements View {
+@SpringView(name = SaveAndUpdateView.NAME)
+public class SaveAndUpdateView extends FormLayout implements View {
 
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Update";
@@ -59,6 +59,7 @@ public class UpdateView extends FormLayout implements View {
 			for (StyleDto styleDto : styleDtos) {
 				styleNo.setValue(styleDto.getStyleNo());
 				styleDesc.setValue(styleDto.getDesc());
+				System.out.println(styleDto.getDesc());
 				countryComboBox.setValue(styleDto.getCountry());
 				id = styleDto.getId();
 			}

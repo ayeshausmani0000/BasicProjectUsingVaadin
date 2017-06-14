@@ -1,9 +1,7 @@
 package com.example.BasicProjectUsingVaadin.dao;
 
 import java.util.List;
-
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 
@@ -22,5 +20,7 @@ public interface ServiceRestDao {
 	
 	public boolean isStyleExistV(StyleDto styleEntity);
 	
-	public Iterable<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity);
+	public boolean validateUser(String username,String password);
+	
+	public List<StyleDto> filterByStyleNoAndCountry(StyleOverViewFilterDto filterEntity);
 }
