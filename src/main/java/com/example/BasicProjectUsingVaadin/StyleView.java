@@ -41,7 +41,6 @@ public class StyleView extends VerticalLayout implements View {
 	private TextField filter;
 	private HorizontalLayout layout;
 	private Button search;
-	private Button update;
 	private Button delete;
 	private Button addStyle;
 	private Button refresh;
@@ -60,7 +59,6 @@ public class StyleView extends VerticalLayout implements View {
 		layout = new HorizontalLayout();
 		filter = new TextField();
 		search = new Button("Search");
-		update = new Button("Update");
 		delete = new Button("Delete");
 		addStyle = new Button("Add Style");
 		refresh = new Button("Refresh");
@@ -119,7 +117,7 @@ public class StyleView extends VerticalLayout implements View {
 		});
 
 		refresh.addClickListener(e6 -> {
-			styleGrid.setData(createPagination(styleEntities.size(), 1, 7));
+			styleGrid.setData(createPagination(styleEntities.size(), 1, 5));
 		});
 
 		search.addClickListener(e -> {
@@ -156,19 +154,14 @@ public class StyleView extends VerticalLayout implements View {
 					}
 				}
 			});
-			update.addClickListener(e2 -> {
-				VaadinSession.getCurrent().setAttribute("update", "update");
-				VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
-				getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
-			});
+			
 		});
 
 		addStyle.addClickListener(e3 -> {
-			VaadinSession.getCurrent().setAttribute("update", "add");
 			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
 		});
 
-		pagination = createPagination(styleEntities.size(), 1, 7);
+		pagination = createPagination(styleEntities.size(), 1, 5);
 
 		pagination.addPageChangeListener(e10 -> {
 			styleGrid.setItems(styleEntities.subList(e10.fromIndex(), e10.toIndex()));
@@ -178,7 +171,7 @@ public class StyleView extends VerticalLayout implements View {
 		styleGrid.setDataProvider(styleDataProvider);
 		styleGrid.getEditor().setEnabled(true);
 
-		layout.addComponents(filter, comboboxFilter, search, addStyle, update, delete, refresh);
+		layout.addComponents(filter, comboboxFilter, search, addStyle,  delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
 
@@ -189,7 +182,7 @@ public class StyleView extends VerticalLayout implements View {
 		final PaginationResource paginationResource = PaginationResource.newBuilder().setTotal(total).setPage(page)
 				.setLimit(limit).build();
 		final Pagination pagination = new Pagination(paginationResource);
-		pagination.setItemsPerPage(5,6,7);
+		pagination.setItemsPerPageVisible(false);
 		return pagination;
 	}
 

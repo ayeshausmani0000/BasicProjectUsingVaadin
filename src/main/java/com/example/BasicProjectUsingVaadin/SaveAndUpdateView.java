@@ -49,32 +49,7 @@ public class SaveAndUpdateView extends FormLayout implements View {
 		Iterable<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
 		ComboBox<CountryDto> countryComboBox = new ComboBox<CountryDto>("Select Country");
 		countryComboBox.setItems((Collection<CountryDto>) countryEntities);
-		String status = (String) VaadinSession.getCurrent().getAttribute("update");
-
-		if (status.equals("update")) {
-			@SuppressWarnings("unchecked")
-			Set<StyleDto> styleDtos = (Set<StyleDto>) VaadinSession.getCurrent().getAttribute("Style");
-			for (StyleDto styleDto : styleDtos) {
-				styleNo.setValue(styleDto.getStyleNo());
-				styleDesc.setValue(styleDto.getDesc());
-				countryComboBox.setValue(styleDto.getCountry());
-				id = styleDto.getId();
-			}
-			
-			update.addClickListener(e -> {
-				StyleDto styleDto = presenterDao.findByStyleId(id);
-				styleDto.setStyleNo(styleNo.getValue());
-				styleDto.setDesc(styleDesc.getValue());
-				styleDto.setCountry(countryComboBox.getSelectedItem().get());
-				presenterDao.updateStyle(styleDto);
-				getUI().getNavigator().navigateTo(StyleView.NAME);
-			});
-
-			layout.addComponents(update, cancel);
-			addComponents(styleNo, styleDesc,countryComboBox,layout);
-		} 
 		
-		else {
 			save.addClickListener(e -> {
 				StyleDto styleDto = new StyleDto();
 
@@ -93,7 +68,7 @@ public class SaveAndUpdateView extends FormLayout implements View {
 
 			layout.addComponents(save, cancel);
 			addComponents(styleNo, styleDesc, countryComboBox, layout);
-		}
+	
 		cancel.addClickListener(e2 -> {
 			getUI().getNavigator().navigateTo(StyleView.NAME);
 		});
