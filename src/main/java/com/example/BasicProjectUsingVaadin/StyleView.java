@@ -86,38 +86,38 @@ public class StyleView extends VerticalLayout implements View {
 		List<StyleDto> styleEntities = presenterDao.findAllStyles();
 
 		Grid<StyleDto> styleGrid = new Grid<StyleDto>(StyleDto.class);
-		styleGrid.setColumns("id","styleNo", "desc","country");
+		styleGrid.setColumns("id");
 
-		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities);
-		textField=new TextField();
-		textField2=new TextField();
-		/*styleGrid.addColumn(StyleDto::getStyleNo)
+		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities.subList(0, 5));
+		textField = new TextField();
+		textField2 = new TextField();
+		ComboBox<CountryDto> comboBox = new ComboBox<CountryDto>();
+		comboBox.setItems((Collection<CountryDto>) countryEntities);
+		styleGrid.addColumn(StyleDto::getStyleNo)
 		.setEditorComponent(textField, StyleDto::setStyleNo ).setCaption("StyleNo")
 		.setExpandRatio(1);
 
-		styleGrid.addColumn(StyleDto::getDesc)
-		.setEditorComponent(textField2, StyleDto::setDesc)
-		.setCaption("Desc")
+		styleGrid.addColumn(StyleDto::getDesc).setEditorComponent(textField2, StyleDto::setDesc).setCaption("Desc")
 		.setExpandRatio(1);
-		
-		for(StyleDto style:styleEntities)
-		{
-			id1=style.getId();
-			textField.setValue(style.getStyleNo());
-			textField2.setValue(style.getDesc());
-		}
+
+		styleGrid.addColumn(StyleDto::getCountry).setEditorComponent(comboBox, StyleDto::setCountry).setCaption("country")
+		.setExpandRatio(1);
+
+		styleGrid.getEditor().setEnabled(true);
 
 		styleGrid.getEditor().addSaveListener(e5->{
-			StyleDto styleDto = presenterDao.findByStyleId(id1);
-			styleDto.setStyleNo(textField.getValue());
-			styleDto.setDesc(textField2.getValue());
-				
-			VaadinSession.getCurrent().setAttribute("update", "update");
-			VaadinSession.getCurrent().setAttribute("Style",styleDto);
-			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
+		
+			
+			StyleDto styleDto = e5.getBean();
+			StyleDto updateStyleDto=presenterDao.findByStyleId(styleDto.getId());
+	
+			updateStyleDto.setStyleNo(textField.getValue());
+			updateStyleDto.setDesc(textField2.getValue());
+			updateStyleDto.setCountry(comboBox.getSelectedItem().get());
+			presenterDao.updateStyle(updateStyleDto);
+
 		});
-		styleGrid.getEditor().setEnabled(true);
-*/
+
 		refresh.addClickListener(e6 -> {
 			styleGrid.setData(createPagination(styleEntities.size(), 1, 7));
 		});
