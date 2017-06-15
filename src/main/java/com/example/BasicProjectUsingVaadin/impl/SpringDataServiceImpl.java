@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.BasicProjectUsingVaadin.dao.EMDao;
 import com.example.BasicProjectUsingVaadin.model.ClientEntity;
 import com.example.BasicProjectUsingVaadin.model.ItemEntity;
@@ -64,18 +61,14 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public StyleEntity findByStyleId(Integer styleid) {
-		//StyleEntity styleEntity = styleRepository.findOne(styleid);
 		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
-
 	}
 
 	@Override
 	public StyleEntity findByStyleIdWithItems(Integer styleid) {
-		// StyleEntity styleEntity = styleRepository.findById(styleid);
 		StyleEntity styleEntity = styleRepository.findByIdUsingJpql(styleid);
 		return styleEntity;
-
 	}
 
 	@Override
@@ -110,42 +103,26 @@ public class SpringDataServiceImpl implements Service {
 
 	@Override
 	public ItemEntity findByItemId(Integer itemId) {
-
 		return itemRepository.findOne(itemId);
-		// return itemRepository.findByitemId(itemId);
-		// return itemRepository.findByIdUsingJpql(itemId);
+	
 	}
 
 	@Override
 	public boolean isStyleExist(StyleEntity styleEntity, SeasonEntity seasonEntity, ClientEntity clientEntity) {
-
 		return false;
 	}
 
 	@Override
 	public boolean validateUser(String username, String password) {
-
 		LoginEntity user = loginRepository.findByUsernameAndPassword(username, password);
 		if (user != null) {
 			return true;
 		}
-		// int count = 0;
-		// Iterable<LoginEntity> loginData = loginRepository.findAll();
-		//
-		// for (LoginEntity loginEntity : loginData) {
-		// if (loginEntity.getUsername().equals(username) &&
-		// loginEntity.getPassword().equals(password))
-		// count++;
-		// }
-		// if (count > 0)
-		// return true;
 		return false;
-
 	}
 
 	@Override
 	public List<ItemEntity> findByItemNumber(String itemNo) {
-
 		List<ItemEntity> items = new ArrayList<ItemEntity>();
 
 		Iterable<ItemEntity> itemEntities = itemRepository.findAll();
@@ -154,9 +131,7 @@ public class SpringDataServiceImpl implements Service {
 				items.add(itemEntity);
 			}
 		}
-
 		return items;
-
 	}
 
 	@Override
@@ -171,7 +146,7 @@ public class SpringDataServiceImpl implements Service {
 	
 	public Iterable<StyleEntity> filterByStyleNoAndCountry(StyleOverFilter filterEntity)
 	{
-	return emDao.filterByStyleNoAndCountry(filterEntity);
+		return emDao.filterByStyleNoAndCountry(filterEntity);
 	}
 
 	

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
@@ -54,7 +53,6 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 		service.deleteStyle(id);
 	}
 
-	
 	@Override
 	public void createStyle(StyleDto styleDto) 
 	{
@@ -82,7 +80,6 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 		
 	}
 
-
 	@Override
 	public boolean isStyleExistV(StyleDto styleDto) 
 	{
@@ -98,10 +95,7 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 			season.setName(styleDto.getSeason().getName());
 			style.setSeason(season);
 		}
-		/*CountryEntity country = new CountryEntity();
-		country.setId(styleDto.getCountry().getId());
-		country.setIsoCode(styleDto.getCountry().getIsoCode());
-		country.setName(styleDto.getCountry().getName());*/
+	
 		style.setCountry(convertCountryDtoToEntity(styleDto.getCountry()));
 		if (style.getClient() != null) 
 		{
@@ -143,16 +137,18 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 			countryDto.setIsoCode(styleEntity.getCountry().getIsoCode());
 			countryDto.setName(styleEntity.getCountry().getName());
 			styles.setCountry(countryDto);
-			
-			/*StyleDto styles= new StyleDto();
-			styles=convertStyleEntityToDTO(styleEntity);
-			styles.setCountry(convertCountryEntityToDTO(styleEntity.getCountry()));*/
 		
 			styleEntities1.add(styles);
 		}
 		return styleEntities1;
 	}
 	
+	@Override
+	public boolean validateUser(String username, String password) {
+		if(service.validateUser(username, password))
+			return true;
+		return false;
+	}
 	
 	public StyleEntity convertStyleDtoToEntity(StyleDto styleDto){
 
@@ -160,9 +156,9 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 
 	styleEntity.setStyleNo(styleDto.getStyleNo());
 	styleEntity.setDesc(styleDto.getDesc());
-	
 	styleEntity.setCountry(convertCountryDtoToEntity(styleDto.getCountry()));
-		return styleEntity;
+	
+	return styleEntity;
 	}
 	
 	
@@ -173,19 +169,19 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 		styleDto.setId(styleEntity.getId());
 		styleDto.setStyleNo(styleEntity.getStyleNo());
 		styleDto.setDesc(styleEntity.getDesc());
-		if(styleEntity.getCountry()!=null){
-			styleDto.setCountry(convertCountryEntityToDTO(styleEntity.getCountry()));
-
-		}
+		styleDto.setCountry(convertCountryEntityToDTO(styleEntity.getCountry()));
+		
 		return styleDto;
 	}
 	
 	public CountryEntity convertCountryDtoToEntity(CountryDto countryDto)
 	{
 		CountryEntity countryEntity = new CountryEntity();
+		
 		countryEntity.setId(countryDto.getId());
 		countryEntity.setIsoCode(countryDto.getIsoCode());
 		countryEntity.setName(countryDto.getName());
+		
 		return countryEntity;
 	}
 	
@@ -193,11 +189,15 @@ public class ServiceRestDaoImpl implements ServiceRestDao
 	public CountryDto convertCountryEntityToDTO(CountryEntity countryEntity)
 	{
 		CountryDto countryDto = new CountryDto();
+		
 		countryDto.setId(countryDto.getId());
 		countryDto.setIsoCode(countryDto.getIsoCode());
 		countryDto.setName(countryDto.getName());
+		
 		return countryDto;
 	}
+
+	
 
 	
 }

@@ -3,17 +3,13 @@ package com.example.BasicProjectUsingVaadin;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.example.BasicProjectUsingVaadin.dto.StyleDto;
-
 import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
 import com.example.BasicProjectUsingVaadin.dao.MasteRestDao;
 import com.example.BasicProjectUsingVaadin.dto.CountryDto;
+import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleOverViewFilterDto;
 import com.vaadin.addon.pagination.Pagination;
-import com.vaadin.addon.pagination.PaginationChangeListener;
 import com.vaadin.addon.pagination.PaginationResource;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
@@ -30,7 +26,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.renderers.*;
 
 @SpringView(name = StyleView.NAME)
 public class StyleView extends VerticalLayout implements View {
@@ -46,37 +41,35 @@ public class StyleView extends VerticalLayout implements View {
 	private TextField filter;
 	private HorizontalLayout layout;
 	private Button search;
-	private Button update;
 	private Button delete;
 	private Button addStyle;
 	private Button refresh;
 	private ComboBox<CountryDto> comboboxFilter;
 	private final Window window = new Window();
 	private Integer id;
-	private Integer id1;
-	Pagination pagination;
-	Label label;
-	private TextField textField2;
 	private TextField textField;
+	private Button yesButton;
+	private Button noButton;
+	private Pagination pagination = new Pagination();
+	private Integer id1;
+	private TextField textField2;
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
-		final int page = 1;
-
-		final int limit = 5;
 		layout = new HorizontalLayout();
 		filter = new TextField();
 		search = new Button("Search");
-		update = new Button("Update");
 		delete = new Button("Delete");
 		addStyle = new Button("Add Style");
 		refresh = new Button("Refresh");
-		Button yesButton = new Button("Yes");
-		Button noButton = new Button("No");
+		textField = new TextField();
+		yesButton = new Button("Yes");
+		noButton = new Button("No");
+
 		final VerticalLayout popupVLayout = new VerticalLayout();
 		Label label = new Label("Do You Really Want to Delete It");
 		HorizontalLayout horizontalLayout1 = new HorizontalLayout();
+
 		horizontalLayout1.addComponents(yesButton, noButton);
 		popupVLayout.addComponents(label, horizontalLayout1);
 
@@ -88,82 +81,42 @@ public class StyleView extends VerticalLayout implements View {
 		Iterable<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
 		comboboxFilter = new ComboBox<CountryDto>();
 		comboboxFilter.setItems((Collection<CountryDto>) countryEntities);
-
 		List<StyleDto> styleEntities = presenterDao.findAllStyles();
 
-		final long total = Long.valueOf(styleEntities.size());
 		Grid<StyleDto> styleGrid = new Grid<StyleDto>(StyleDto.class);
+		styleGrid.setColumns("id");
 
-		styleGrid.setColumns("id", "country");
-		// styleGrid.getColumn("id").setEditable(true).setEditable(getNoEditableField());
-		label = new Label();
-		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities);
-
+		ListDataProvider<StyleDto> styleDataProvider = DataProvider
+				.ofCollection((Collection<StyleDto>) styleEntities.subList(0, 5));
 		textField = new TextField();
 		textField2 = new TextField();
+		ComboBox<CountryDto> comboBox = new ComboBox<CountryDto>();
+		comboBox.setItems((Collection<CountryDto>) countryEntities);
 		styleGrid.addColumn(StyleDto::getStyleNo).setEditorComponent(textField, StyleDto::setStyleNo)
 				.setCaption("StyleNo").setExpandRatio(1);
 
 		styleGrid.addColumn(StyleDto::getDesc).setEditorComponent(textField2, StyleDto::setDesc).setCaption("Desc")
 				.setExpandRatio(1);
-		// styleGrid.addColumn(StyleDto::getId).setEditorComponent(label,
-		// StyleDto::getId).setCaption("id")
-		// .setExpandRatio(0);
-		/*
-		 * styleGrid.addColumn(StyleDto::getId).setEditorComponent(textField2,
-		 * StyleDto::getId).setCaption("Desc") .setExpandRatio(1);
-		 */
-		/*
-		 * styleDataProvider.addDataProviderListener(e6->{ List<StyleDto>
-		 * styleDtos=(List<StyleDto>) styleDataProvider.getItems();
-		 * 
-		 * for (StyleDto styleDto : styleDtos) { id = styleDto.getId();
-		 * textField.setValue(styleDto.getStyleNo());
-		 * textField2.setValue(styleDto.getDesc()); } });
-		 */
-		// for(StyleDto style:styleEntities)
-		// {
-		// id1=style.getId();
-		// System.out.println(id1);
-		// textField.setValue(style.getStyleNo());
-		// textField2.setValue(style.getDesc());
-		// }
-		// List<StyleDto> styleDtos=(List<StyleDto>)
-		// styleDataProvider..getItems();
 
-		styleGrid.getEditor().addSaveListener(e5 -> {
-			id1 = e5.getBean().getId();
-			StyleDto styleDto = presenterDao.findByStyleId(id1);
-			styleDto.setStyleNo(textField.getValue());
-			styleDto.setDesc(textField2.getValue());
+		styleGrid.addColumn(StyleDto::getCountry).setEditorComponent(comboBox, StyleDto::setCountry)
+				.setCaption("country").setExpandRatio(1);
 
-			presenterDao.updateStyle(styleDto);
-
-			/*
-			 * VaadinSession.getCurrent().setAttribute("update", "update");
-			 * VaadinSession.getCurrent().setAttribute("Style",styleDto
-			 * styleGrid.getSelectedItems() );
-			 * getUI().getNavigator().navigateTo(UpdateView.NAME);
-			 */
-		});
 		styleGrid.getEditor().setEnabled(true);
 
-		final Pagination pagination = createPagination(total, page, limit);
+		styleGrid.getEditor().addSaveListener(e5 -> {
 
-		pagination.addPageChangeListener(new PaginationChangeListener() {
+			StyleDto styleDto = e5.getBean();
+			StyleDto updateStyleDto = presenterDao.findByStyleId(styleDto.getId());
 
-			@Override
-
-			public void changed(PaginationResource event) {
-				styleGrid.setItems(styleEntities.subList(event.fromIndex(), event.toIndex()));
-
-				styleGrid.scrollToStart();
-
-			}
+			updateStyleDto.setStyleNo(textField.getValue());
+			updateStyleDto.setDesc(textField2.getValue());
+			updateStyleDto.setCountry(comboBox.getSelectedItem().get());
+			presenterDao.updateStyle(updateStyleDto);
 
 		});
+
 		refresh.addClickListener(e6 -> {
-			styleGrid.setDataProvider(styleDataProvider);
+			styleGrid.setData(createPagination(styleEntities.size(), 1, 5));
 		});
 
 		search.addClickListener(e -> {
@@ -184,9 +137,9 @@ public class StyleView extends VerticalLayout implements View {
 					UI.getCurrent().addWindow(window);
 
 					if (styleGrid.asSingleSelect() != null) {
-						Set<StyleDto> style1 = (Set<StyleDto>) styleGrid.getSelectedItems();
-						for (StyleDto styleEntity : style1) {
-							id = styleEntity.getId();
+						Set<StyleDto> style = (Set<StyleDto>) styleGrid.getSelectedItems();
+						for (StyleDto styleDto : style) {
+							id = styleDto.getId();
 						}
 						yesButton.addClickListener(e -> {
 							presenterDao.deleteStyle(id);
@@ -202,43 +155,34 @@ public class StyleView extends VerticalLayout implements View {
 			});
 		});
 
-		styleGrid.addSelectionListener(e4 -> {
-			if (styleGrid.asSingleSelect() != null) {
-				update.addClickListener(e2 -> {
-					VaadinSession.getCurrent().setAttribute("update", "update");
-					VaadinSession.getCurrent().setAttribute("Style", styleGrid.getSelectedItems());
-					getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
-				});
-
-			}
-
-		});
-
 		addStyle.addClickListener(e3 -> {
-			VaadinSession.getCurrent().setAttribute("update", "add");
 			getUI().getNavigator().navigateTo(SaveAndUpdateView.NAME);
 		});
 
-		styleGrid.setDataProvider(styleDataProvider);
-		addComponent(pagination);
-		layout.addComponents(filter, comboboxFilter, search, addStyle, update, delete, refresh);
+		pagination = createPagination(styleEntities.size(), 1, 5);
 
+		pagination.addPageChangeListener(e10 -> {
+			styleGrid.setItems(styleEntities.subList(e10.fromIndex(), e10.toIndex()));
+
+		});
+
+		styleGrid.setDataProvider(styleDataProvider);
+		styleGrid.getEditor().setEnabled(true);
+
+		layout.addComponents(filter, comboboxFilter, search, addStyle, delete, refresh);
 		layout.setSpacing(true);
 		styleGrid.setSizeFull();
-		addComponents(layout, styleGrid);
 
+		addComponents(layout, pagination, styleGrid);
 	}
 
-	private Pagination createPagination(long total, int page, int limit) {
-
+	private Pagination createPagination(int total, int page, int limit) {
 		final PaginationResource paginationResource = PaginationResource.newBuilder().setTotal(total).setPage(page)
 				.setLimit(limit).build();
-
 		final Pagination pagination = new Pagination(paginationResource);
-
-		pagination.setItemsPerPage(5, 6, 7, 8);
-
+		pagination.setItemsPerPageVisible(false);
+		// pagination.setItemsPerPage(5,6,7);
 		return pagination;
-
 	}
+
 }
