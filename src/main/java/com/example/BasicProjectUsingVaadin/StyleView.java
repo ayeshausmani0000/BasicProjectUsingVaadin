@@ -33,8 +33,7 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.renderers.*;
 
 @SpringView(name = StyleView.NAME)
-public class StyleView extends VerticalLayout implements View 
-{
+public class StyleView extends VerticalLayout implements View {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "Style";
 
@@ -97,7 +96,7 @@ public class StyleView extends VerticalLayout implements View
 
 		styleGrid.setColumns("id", "country");
 		// styleGrid.getColumn("id").setEditable(true).setEditable(getNoEditableField());
-		label=new Label();
+		label = new Label();
 		ListDataProvider<StyleDto> styleDataProvider = DataProvider.ofCollection((Collection<StyleDto>) styleEntities);
 
 		textField = new TextField();
@@ -107,11 +106,13 @@ public class StyleView extends VerticalLayout implements View
 
 		styleGrid.addColumn(StyleDto::getDesc).setEditorComponent(textField2, StyleDto::setDesc).setCaption("Desc")
 				.setExpandRatio(1);
-//		styleGrid.addColumn(StyleDto::getId).setEditorComponent(label, StyleDto::getId).setCaption("id")
-//				.setExpandRatio(0);
-		/*styleGrid.addColumn(StyleDto::getId).setEditorComponent(textField2, StyleDto::getId).setCaption("Desc")
-		.setExpandRatio(1);
-*/
+		// styleGrid.addColumn(StyleDto::getId).setEditorComponent(label,
+		// StyleDto::getId).setCaption("id")
+		// .setExpandRatio(0);
+		/*
+		 * styleGrid.addColumn(StyleDto::getId).setEditorComponent(textField2,
+		 * StyleDto::getId).setCaption("Desc") .setExpandRatio(1);
+		 */
 		/*
 		 * styleDataProvider.addDataProviderListener(e6->{ List<StyleDto>
 		 * styleDtos=(List<StyleDto>) styleDataProvider.getItems();
@@ -131,21 +132,19 @@ public class StyleView extends VerticalLayout implements View
 		// styleDataProvider..getItems();
 
 		styleGrid.getEditor().addSaveListener(e5 -> {
-			/*Set<StyleDto> selectedDto = (Set<StyleDto>) styleGrid;
-			for (StyleDto dto : selectedDto) {
-				id1 = dto.getId();
-				System.out.println("id1 is"+id1);
-			}*/
-			
+			id1 = e5.getBean().getId();
 			StyleDto styleDto = presenterDao.findByStyleId(id1);
 			styleDto.setStyleNo(textField.getValue());
 			styleDto.setDesc(textField2.getValue());
-			
-			// presenterDao.updateStyle(styleDto);
 
-			/*VaadinSession.getCurrent().setAttribute("update", "update");
-			VaadinSession.getCurrent().setAttribute("Style",styleDto  styleGrid.getSelectedItems() );
-			getUI().getNavigator().navigateTo(UpdateView.NAME);*/
+			presenterDao.updateStyle(styleDto);
+
+			/*
+			 * VaadinSession.getCurrent().setAttribute("update", "update");
+			 * VaadinSession.getCurrent().setAttribute("Style",styleDto
+			 * styleGrid.getSelectedItems() );
+			 * getUI().getNavigator().navigateTo(UpdateView.NAME);
+			 */
 		});
 		styleGrid.getEditor().setEnabled(true);
 
