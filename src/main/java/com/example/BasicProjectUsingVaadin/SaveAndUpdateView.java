@@ -1,7 +1,6 @@
 package com.example.BasicProjectUsingVaadin;
 
 import java.util.Collection;
-import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.BasicProjectUsingVaadin.dao.ServiceRestDao;
 import com.example.BasicProjectUsingVaadin.dao.MasteRestDao;
@@ -9,8 +8,8 @@ import com.example.BasicProjectUsingVaadin.dto.CountryDto;
 import com.example.BasicProjectUsingVaadin.dto.StyleDto;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
@@ -25,7 +24,6 @@ public class SaveAndUpdateView extends FormLayout implements View {
 	public static final String NAME = "Update";
 	private TextField styleNo;
 	private TextField styleDesc;
-	private Button update;
 	private Button cancel;
 	int id = 0;
 
@@ -43,7 +41,6 @@ public class SaveAndUpdateView extends FormLayout implements View {
 		layout = new HorizontalLayout();
 		styleNo = new TextField("Enter Style Number");
 		styleDesc = new TextField("Enter Style Description");
-		update = new Button("Update");
 		cancel = new Button("Cancel");
 		save = new Button("Save");
 		Iterable<CountryDto> countryEntities = presenterMasterDao.findAllCountry();
@@ -67,11 +64,15 @@ public class SaveAndUpdateView extends FormLayout implements View {
 			});
 
 			layout.addComponents(save, cancel);
-			addComponents(styleNo, styleDesc, countryComboBox, layout);
+			
 	
 		cancel.addClickListener(e2 -> {
 			getUI().getNavigator().navigateTo(StyleView.NAME);
 		});
+		
+		addComponents(styleNo, styleDesc, countryComboBox, layout);
+		
+		setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
 	}
 

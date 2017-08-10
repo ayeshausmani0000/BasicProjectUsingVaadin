@@ -48,6 +48,13 @@
 			<artifactId>pagination</artifactId>
 			<version>8.0.6</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>addon</groupId>
+			<artifactId>vaadin-excel-exporter</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -61,7 +68,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
+			<version>${hibernate.version}</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>com.oracle</groupId>
@@ -72,7 +79,7 @@
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
-			<version>1.2.2</version>
+			<version>1.2.2</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 
 		<dependency>

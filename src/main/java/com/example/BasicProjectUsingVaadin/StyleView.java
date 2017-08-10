@@ -15,7 +15,6 @@ import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -51,7 +50,6 @@ public class StyleView extends VerticalLayout implements View {
 	private Button yesButton;
 	private Button noButton;
 	private Pagination pagination = new Pagination();
-	private Integer id1;
 	private TextField textField2;
 
 	@Override
@@ -124,7 +122,7 @@ public class StyleView extends VerticalLayout implements View {
 			StyleOverViewFilterDto filterEntity = new StyleOverViewFilterDto();
 			filterEntity.setStyleNo(filter.getValue());
 			filterEntity.setCountry(comboboxFilter.getValue());
-			Iterable<StyleDto> filterStyle = presenterDao.filterByStyleNoAndCountry(filterEntity);
+			List<StyleDto> filterStyle = presenterDao.filterByStyleNoAndCountry(filterEntity);
 
 			ListDataProvider<StyleDto> dataProvider1 = DataProvider.ofCollection((Collection<StyleDto>) filterStyle);
 			styleGrid.clearSortOrder();

@@ -54,6 +54,7 @@ public class LoginView extends VerticalLayout implements View{
 		loginForm.addComponents(username,password,submit);
 		loginForm.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		addComponent(loginForm);
+		setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 	}
 	
 
